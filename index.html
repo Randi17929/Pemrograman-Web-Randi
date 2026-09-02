@@ -1,12 +1,56 @@
 <!doctype html>
 <html lang="id">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Praktikum Pemrograman Web</title>
+    <meta charset="utf-8">
+    <title>Kuliner Khas Tarakan</title>
 </head>
 <body>
-<h1>Praktikum Pemrograman Web</h1>
-<p>Repository awal OBE.</p>
+    <header>
+        <h1>Kuliner Khas Tarakan</h1>
+    </header>
+
+    <main id="main">
+        <section id="tentang">
+            <h2>Mengenal Kuliner Tarakan</h2>
+            <p>Kota Tarakan memiliki kekayaan kuliner khas pesisir yang menggabungkan cita rasa laut segar dengan tradisi lokal.</p>
+            <img src="garis-pembatas.png" alt="" width="100%">
+        </section>
+
+        <section id="menu">
+            <h2>Daftar Kuliner Pilihan</h2>
+            
+            <article>
+                <h3>Kepiting Soka Tarakan</h3>
+                <p>Kepiting cangkang lunak khas pesisir Tarakan dengan bumbu saus padang.</p>
+                <img src="kepiting-soka.jpg" alt="Sajian Kepiting Soka kuah asam manis khas Tarakan di atas piring" width="300">
+            </article>
+
+            <article>
+                <h3>Nasi Lalap</h3>
+                <p>Hidangan nasi lalap khas Tarakan yang disajikan bersama ayam lalapan.</p>
+            </article>
+        </section>
+
+        <section id="kontak">
+            <h2>Kirim Rekomendasi Kuliner</h2>
+            <form action="#" method="POST">
+                <div>
+                    <label for="nama">Nama Lengkap</label><br>
+                    <input id="nama" name="nama" type="text" required>
+                </div>
+                <br>
+                <div>
+                    <label for="email">Alamat Email</label><br>
+                    <input id="email" name="email" type="email" required>
+                </div>
+                <br>
+                <button type="submit">Kirim Pesan</button>
+            </form>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Kuliner Khas Tarakan. Dibuat oleh MAHASIGMA KECE</p>
+    </footer>
 </body>
 </html>
