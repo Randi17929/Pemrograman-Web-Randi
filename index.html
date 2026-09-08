@@ -1,81 +1,122 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kuliner Khas Tarakan</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sistem e-ticketing pemesanan tiket speedboat online Pelabuhan Tengkayu Tarakan">
+    <title>Tiket Speedboat - Tengkayu</title>
 </head>
 <body>
-    <header>
-        <a href="#main" class="skip-link">Lewati ke konten utama</a>
-        
-        <a href="index.html">
-            <img src="logo-tarakan.png" alt="Kembali ke Beranda Kuliner Khas Tarakan" width="60">
-        </a>
 
-        <h1>Kuliner Khas Tarakan</h1>
-        <nav aria-label="Navigasi utama">
-            <a href="#tentang">Tentang</a>
-            <a href="#menu">Kuliner Pilihan</a>
-            <a href="#kontak">Kontak</a>
-        </nav>
+    <!-- HEADER -->
+    <header>
+        <table width="100%">
+            <tr>
+                <td align="center">
+                    <!-- TAMBAHAN: Gambar informatif (Logo) -->
+                    <img src="logo-speedboat.png" alt="Logo sistem E-Ticketing Speedboat Pelabuhan Tengkayu" width="70">
+                    <h2>E-Ticketing Tengkayu</h2>
+                </td>
+            </tr>
+        </table>
     </header>
 
+    <!-- TAMBAHAN: Gambar dekoratif (Garis Pembatas) -->
+    <img src="garis-pembatas-biru.png" alt="" width="100%" height="5">
+
+    <!-- TAB MENU ☰ (Informasi & Panduan) -->
+    <details style="background-color: #f9f9f9; padding: 10px; border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;">
+        <summary style="cursor: pointer; font-size: 16px;"><b>☰ Buka Menu Informasi</b></summary>
+        <ul style="line-height: 1.8; margin-top: 10px;">
+            <li><a href="tenggg.html">🏠 Beranda (Cari Tiket)</a></li>
+            <li><a href="jadwal.html">🗓️ Info Jadwal & Tarif Reguler</a></li>
+            <li><a href="panduan.html">💳 Panduan Pembayaran</a></li>
+            <li><a href="syarat.html">📜 Syarat & Ketentuan Penumpang</a></li>
+            <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
+        </ul>
+    </details>
+
+    <br>
+
+    <!-- KONTEN UTAMA -->
     <main id="main">
-        <section id="tentang">
-            <h2>Mengenal Kuliner Tarakan</h2>
-            <p>Kota Tarakan memiliki kekayaan kuliner khas pesisir yang menggabungkan cita rasa laut segar dengan tradisi lokal.</p>
+        
+        <!-- Formulir Pencarian Utama -->
+        <fieldset>
+            <legend><b>Pencarian Tiket Speedboat</b></legend>
             
-            <img src="garis-pembatas.png" alt="" width="100%">
-        </section>
+            <form action="cari_jadwal.php" method="GET">
+                <!-- Asal (Dikunci) -->
+                <p>
+                    <label for="dari"><b>Dari (Asal)</b></label><br>
+                    <input type="text" id="dari" name="dari" value="Pelabuhan Tengkayu, Tarakan" size="40" readonly style="background-color: #eeeeee; color: #555;">
+                </p>
 
-        <section id="menu">
-            <h2>Daftar Kuliner Pilihan</h2>
-            
-            <article>
-                <h3>Kepiting Soka Tarakan</h3>
-                <p>Kepiting cangkang lunak khas pesisir Tarakan dengan bumbu saus padang atau asam manis yang gurih.</p>
-                
-                <img src="kepiting-soka.jpg" alt="Piring saji berisi Kepiting Soka kuah asam manis khas Tarakan berwarna merah menyala" width="300">
-            </article>
+                <!-- Tujuan -->
+                <p>
+                    <label for="ke"><b>Ke (Tujuan)</b></label><br>
+                    <select name="ke" id="ke" required>
+                        <option value="">-- Pilih Pelabuhan Tujuan --</option>
+                        <option value="Pulau Bunyu">Pulau Bunyu (Rp 120.000)</option>
+                        <option value="Tideng Pale">Tideng Pale / KTT (Rp 235.000)</option>
+                        <option value="Sungai Nyamuk">Sungai Nyamuk (Rp 280.000)</option>
+                        <option value="Berau">Berau (Rp 370.000)</option>
+                        <option value="Malinau">Malinau (Rp 310.000)</option>
+                        <option value="Nunukan">Nunukan (Rp 280.000)</option>
+                        <option value="Tanjung Selor">Tanjung Selor (Rp 145.000)</option>
+                    </select>
+                </p>
 
-            <article>
-                <h3>Nasi Lalap</h3>
-                <p>Hidangan nasi lalap khas Tarakan yang disajikan bersama ayam lalapan dan sambal khas.</p>
-                
-                <img src="nasi-lalap.jpg" alt="Sajian Nasi Lalap dengan lauk ayam lalapan dan sambal khas Tarakan di atas piring putih" width="300">
-            </article>
+                <!-- Tanggal -->
+                <p>
+                    <label for="tanggal"><b>Tanggal Berangkat</b></label><br>
+                    <input type="date" name="tanggal" id="tanggal" value="2026-09-09" required>
+                </p>
 
-            <img src="ornamen-daun-pisang.svg" alt="" width="50">
-        </section>
+                <!-- Penumpang -->
+                <p>
+                    <label for="penumpang"><b>Jumlah Penumpang</b></label><br>
+                    <select name="penumpang" id="penumpang" required>
+                        <option value="1">1 Dewasa</option>
+                        <option value="2">2 Dewasa</option>
+                        <option value="3">3 Dewasa</option>
+                        <option value="4">4 Dewasa</option>
+                    </select>
+                </p>
 
- <section id="kontak">
-            <h2>Hubungi Kami</h2>
-            <p>Kirimkan saran atau rekomendasi kuliner Tarakan lainnya kepada kami.</p>
-            
-            <form action="#" method="POST">
-                <div>
-                    <label for="nama">Nama Lengkap</label><br>
-                    <input id="nama" name="nama" type="text" required>
-                </div>
                 <br>
-                <div>
-                    <label for="email">Alamat Email</label><br>
-                    <input id="email" name="email" type="email" required>
-                </div>
-                <br>
-                <div>
-                    <label for="saran">Isi Saran / Pesan</label><br>
-                    <textarea id="saran" name="saran" rows="4" required></textarea>
-                </div>
-                <br>
-                <button type="submit">Kirim Saran</button>
+
+                <!-- Tombol Cari -->
+                <p>
+                    <button type="submit" style="width: 100%; padding: 15px; font-size: 16px; font-weight: bold; cursor: pointer;">
+                        CARI TIKET
+                    </button>
+                </p>
             </form>
-        </section>
+        </fieldset>
+
+        <br>
+
+        <!-- Layanan Cepat (Transaksi) -->
+        <fieldset style="border-color: #666;">
+            <legend><b>⚡ Layanan Cepat</b></legend>
+            <ul style="line-height: 1.8;">
+                <li><a href="cek_pesanan.html"><b>🎫 Cek Pesanan / Upload Bukti Bayar</b></a></li>
+                <hr style="border: 0.5px solid #eee;">
+                <li><a href="login_agen.html">🔐 Portal Admin / Agen Mitra</a></li>
+            </ul>
+        </fieldset>
+
     </main>
 
+    <br><hr>
+
+    <!-- FOOTER -->
     <footer>
-        <p>&copy; 2026 Kuliner Khas Tarakan. Dibuat oleh MAHASIGMA KECE.</p>
+        <p align="center">
+            <small>&copy; 2026 - Rancang Bangun Sistem Informasi E-Ticketing Speedboat<br>Proyek Pemrograman Web - Teknik Komputer</small>
+        </p>
     </footer>
+
 </body>
 </html>
