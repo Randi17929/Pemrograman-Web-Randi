@@ -2,17 +2,30 @@
 <html lang="id">
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kuliner Khas Tarakan</title>
 </head>
 <body>
     <header>
+        <a href="#main" class="skip-link">Lewati ke konten utama</a>
+        
+        <a href="index.html">
+            <img src="logo-tarakan.png" alt="Kembali ke Beranda Kuliner Khas Tarakan" width="60">
+        </a>
+
         <h1>Kuliner Khas Tarakan</h1>
+        <nav aria-label="Navigasi utama">
+            <a href="#tentang">Tentang</a>
+            <a href="#menu">Kuliner Pilihan</a>
+            <a href="#kontak">Kontak</a>
+        </nav>
     </header>
 
     <main id="main">
         <section id="tentang">
             <h2>Mengenal Kuliner Tarakan</h2>
             <p>Kota Tarakan memiliki kekayaan kuliner khas pesisir yang menggabungkan cita rasa laut segar dengan tradisi lokal.</p>
+            
             <img src="garis-pembatas.png" alt="" width="100%">
         </section>
 
@@ -21,18 +34,25 @@
             
             <article>
                 <h3>Kepiting Soka Tarakan</h3>
-                <p>Kepiting cangkang lunak khas pesisir Tarakan dengan bumbu saus padang.</p>
-                <img src="kepiting-soka.jpg" alt="Sajian Kepiting Soka kuah asam manis khas Tarakan di atas piring" width="300">
+                <p>Kepiting cangkang lunak khas pesisir Tarakan dengan bumbu saus padang atau asam manis yang gurih.</p>
+                
+                <img src="kepiting-soka.jpg" alt="Piring saji berisi Kepiting Soka kuah asam manis khas Tarakan berwarna merah menyala" width="300">
             </article>
 
             <article>
                 <h3>Nasi Lalap</h3>
-                <p>Hidangan nasi lalap khas Tarakan yang disajikan bersama ayam lalapan.</p>
+                <p>Hidangan nasi lalap khas Tarakan yang disajikan bersama ayam lalapan dan sambal khas.</p>
+                
+                <img src="nasi-lalap.jpg" alt="Sajian Nasi Lalap dengan lauk ayam lalapan dan sambal khas Tarakan di atas piring putih" width="300">
             </article>
+
+            <img src="ornamen-daun-pisang.svg" alt="" width="50">
         </section>
 
-        <section id="kontak">
-            <h2>Kirim Rekomendasi Kuliner</h2>
+ <section id="kontak">
+            <h2>Hubungi Kami</h2>
+            <p>Kirimkan saran atau rekomendasi kuliner Tarakan lainnya kepada kami.</p>
+            
             <form action="#" method="POST">
                 <div>
                     <label for="nama">Nama Lengkap</label><br>
@@ -44,13 +64,18 @@
                     <input id="email" name="email" type="email" required>
                 </div>
                 <br>
-                <button type="submit">Kirim Pesan</button>
+                <div>
+                    <label for="saran">Isi Saran / Pesan</label><br>
+                    <textarea id="saran" name="saran" rows="4" required></textarea>
+                </div>
+                <br>
+                <button type="submit">Kirim Saran</button>
             </form>
         </section>
     </main>
 
     <footer>
-        <p>&copy; 2026 Kuliner Khas Tarakan. Dibuat oleh MAHASIGMA KECE</p>
+        <p>&copy; 2026 Kuliner Khas Tarakan. Dibuat oleh MAHASIGMA KECE.</p>
     </footer>
 </body>
 </html>
