@@ -5,56 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Sistem e-ticketing pemesanan tiket speedboat online Pelabuhan Tengkayu Tarakan">
     <title>Tiket Speedboat - Tengkayu</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header>
-        <table width="100%">
-            <tr>
-                <td align="center">
-                    <!-- TAMBAHAN: Gambar informatif (Logo) -->
-                    <img src="logo-speedboat.png" alt="Logo sistem E-Ticketing Speedboat Pelabuhan Tengkayu" width="70">
-                    <h2>E-Ticketing Tengkayu</h2>
-                </td>
-            </tr>
-        </table>
+    <header class="navbar">
+        <div class="navbar-brand">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Logo E-Ticketing" width="50">
+            <h2>E-Ticketing Tengkayu</h2>
+        </div>
+        
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="tenggg.html">🏠 Beranda (Cari Tiket)</a></li>
+                <li><a href="jadwal.html">🗓️ Info Jadwal & Tarif Reguler</a></li>
+                <li><a href="panduan.html">💳 Panduan Pembayaran</a></li>
+                <li><a href="syarat.html">📜 Syarat & Ketentuan Penumpang</a></li>
+                <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
+            </ul>
+        </nav>
     </header>
 
-    <!-- TAMBAHAN: Gambar dekoratif (Garis Pembatas) -->
-    <img src="garis-pembatas-biru.png" alt="" width="100%" height="5">
+    <section class="hero-mungkeen">
+        <div class="hero-text">
+            <h1 class="hero-title">Jelajahi Tarakan</h1>
+            <p>Pesan tiket lebih mudah dan cepat.</p>
+        </div>
+        <div class="hero-image">
+             🚢
+        </div>
+    </section>
 
-    <!-- TAB MENU ☰ (Informasi & Panduan) -->
-    <details style="background-color: #f9f9f9; padding: 10px; border-top: 2px solid #ccc; border-bottom: 2px solid #ccc;">
-        <summary style="cursor: pointer; font-size: 16px;"><b>☰ Buka Menu Informasi</b></summary>
-        <ul style="line-height: 1.8; margin-top: 10px;">
-            <li><a href="tenggg.html">🏠 Beranda (Cari Tiket)</a></li>
-            <li><a href="jadwal.html">🗓️ Info Jadwal & Tarif Reguler</a></li>
-            <li><a href="panduan.html">💳 Panduan Pembayaran</a></li>
-            <li><a href="syarat.html">📜 Syarat & Ketentuan Penumpang</a></li>
-            <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
-        </ul>
-    </details>
-
-    <br>
-
-    <!-- KONTEN UTAMA -->
-    <main id="main">
+    <main id="main" class="container">
         
-        <!-- Formulir Pencarian Utama -->
-        <fieldset>
-            <legend><b>Pencarian Tiket Speedboat</b></legend>
-            
+        <section class="card">
+            <h3>Pencarian Tiket Speedboat</h3>
             <form action="cari_jadwal.php" method="GET">
-                <!-- Asal (Dikunci) -->
-                <p>
-                    <label for="dari"><b>Dari (Asal)</b></label><br>
-                    <input type="text" id="dari" name="dari" value="Pelabuhan Tengkayu, Tarakan" size="40" readonly style="background-color: #eeeeee; color: #555;">
-                </p>
+                <div class="form-group">
+                    <label for="dari"><b>Dari (Asal)</b></label>
+                    <input type="text" id="dari" name="dari" value="Pelabuhan Tengkayu, Tarakan" readonly class="input-readonly">
+                </div>
 
-                <!-- Tujuan -->
-                <p>
-                    <label for="ke"><b>Ke (Tujuan)</b></label><br>
+                <div class="form-group">
+                    <label for="ke"><b>Ke (Tujuan)</b></label>
                     <select name="ke" id="ke" required>
                         <option value="">-- Pilih Pelabuhan Tujuan --</option>
                         <option value="Pulau Bunyu">Pulau Bunyu (Rp 120.000)</option>
@@ -65,57 +58,47 @@
                         <option value="Nunukan">Nunukan (Rp 280.000)</option>
                         <option value="Tanjung Selor">Tanjung Selor (Rp 145.000)</option>
                     </select>
-                </p>
+                </div>
 
-                <!-- Tanggal -->
-                <p>
-                    <label for="tanggal"><b>Tanggal Berangkat</b></label><br>
-                    <input type="date" name="tanggal" id="tanggal" value="2026-09-09" required>
-                </p>
+                <div class="form-group row-group">
+                    <div class="half-width">
+                        <label for="tanggal"><b>Tanggal Berangkat</b></label>
+                        <input type="date" name="tanggal" id="tanggal" value="2026-09-09" required>
+                    </div>
+                    <div class="half-width">
+                        <label for="penumpang"><b>Jumlah Penumpang</b></label>
+                        <select name="penumpang" id="penumpang" required>
+                            <option value="1">1 Dewasa</option>
+                            <option value="2">2 Dewasa</option>
+                            <option value="3">3 Dewasa</option>
+                            <option value="4">4 Dewasa</option>
+                        </select>
+                    </div>
+                </div>
 
-                <!-- Penumpang -->
-                <p>
-                    <label for="penumpang"><b>Jumlah Penumpang</b></label><br>
-                    <select name="penumpang" id="penumpang" required>
-                        <option value="1">1 Dewasa</option>
-                        <option value="2">2 Dewasa</option>
-                        <option value="3">3 Dewasa</option>
-                        <option value="4">4 Dewasa</option>
-                    </select>
-                </p>
-
-                <br>
-
-                <!-- Tombol Cari -->
-                <p>
-                    <button type="submit" style="width: 100%; padding: 15px; font-size: 16px; font-weight: bold; cursor: pointer;">
-                        CARI TIKET
-                    </button>
-                </p>
+                <button type="submit" class="btn-primary">CARI TIKET</button>
             </form>
-        </fieldset>
+        </section>
 
-        <br>
-
-        <!-- Layanan Cepat (Transaksi) -->
-        <fieldset style="border-color: #666;">
-            <legend><b>⚡ Layanan Cepat</b></legend>
-            <ul style="line-height: 1.8;">
-                <li><a href="cek_pesanan.html"><b>🎫 Cek Pesanan / Upload Bukti Bayar</b></a></li>
-                <hr style="border: 0.5px solid #eee;">
-                <li><a href="login_agen.html">🔐 Portal Admin / Agen Mitra</a></li>
+        <aside class="card highlight-card">
+            <h3>⚡ Layanan Cepat</h3>
+            <ul class="quick-links">
+                <li><a href="cek_pesanan.html" class="btn-secondary">🎫 Cek Pesanan / Upload Bukti</a></li>
+                <li><a href="login_agen.html" class="btn-outline">🔐 Portal Admin / Agen Mitra</a></li>
             </ul>
-        </fieldset>
+        </aside>
 
     </main>
-
-    <br><hr>
-
-    <!-- FOOTER -->
+<section class="container" style="padding-top: 0;">
+        <h3 style="text-align: center; margin-bottom: 1rem; width: 100%;">Kenapa Memilih Kami?</h3>
+        <div class="features-grid">
+            <div class="card">✅ <b>Pemesanan Mudah</b><br>Tanpa antre di pelabuhan.</div>
+            <div class="card">💸 <b>Harga Resmi</b><br>Sesuai tarif reguler dishub.</div>
+            <div class="card">🛡️ <b>Aman & Nyaman</b><br>Terintegrasi asuransi Jasa Raharja.</div>
+        </div>
+    </section>
     <footer>
-        <p align="center">
-            <small>&copy; 2026 - Rancang Bangun Sistem Informasi E-Ticketing Speedboat<br>Proyek Pemrograman Web - Teknik Komputer</small>
-        </p>
+        <p>&copy; 2026 - Rancang Bangun Sistem Informasi E-Ticketing Speedboat<br>Proyek Pemrograman Web - Teknik Komputer</p>
     </footer>
 
 </body>
