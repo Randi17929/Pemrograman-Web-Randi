@@ -1,0 +1,243 @@
+/* 1. VARIABEL CSS (Custom Properties) & RESET */
+:root {
+    --brand: #0284c7;
+    --brand-hover: #0369a1;
+    --surface: #ffffff;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --radius: 0.75rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: system-ui, sans-serif;
+    line-height: 1.6;
+    color: var(--text);
+    /* EFEK GRADIENT 1: Latar belakang halaman yang lembut dan nikmat */
+    background: linear-gradient(135deg, #f0f9ff 0%, #dbeafe 100%);
+    min-height: 100vh;
+}
+
+/* 2. AKSESIBILITAS VISUAL (Focus State) */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible {
+    outline: 3px solid var(--brand);
+    outline-offset: 3px;
+}
+
+/* 3. LAYOUT DASAR */
+.container {
+    width: min(100% - 2rem, 50rem); 
+    margin-inline: auto;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    display: flex;
+    flex-direction: column; 
+    gap: 1.5rem;
+}
+
+.navbar {
+    background-color: var(--surface);
+    padding: var(--space-2) var(--space-2);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 4px solid transparent;
+    border-image: linear-gradient(to right, #0284c7, #38bdf8) 1;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.navbar-brand h2 {
+    font-size: 1.25rem;
+    color: var(--brand);
+}
+
+.nav-menu ul {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 1rem;
+}
+
+a {
+    text-decoration: none;
+    color: var(--brand);
+    font-weight: 500;
+}
+
+/* --- Komponen hero --- */
+.hero-mungkeen {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 90%;                
+    max-width: 1000px;         
+    margin: 2rem auto;         
+    background-color: var(--surface);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.hero-title {
+    /* 'clamp()' otomatis membesar mengecil dari 1.8rem hingga 3rem */
+    font-size: clamp(1.8rem, 4vw, 3rem); 
+    color: var(--brand-hover);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+.hero-text, .hero-image {
+    padding: 2rem;
+}
+
+.hero-image {
+    background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 4rem;
+}
+
+/* --- CARD KOMPONEN UI --- */
+.card {
+    background-color: var(--surface);
+    padding: 1.5rem;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.5rem;
+}
+
+.highlight-card {
+    border: 2px solid #38bdf8;
+    background: linear-gradient(to bottom right, #ffffff, #f0f9ff);
+}
+
+/* --- FORMULIR --- */
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.25rem;
+    font-size: 0.9rem;
+}
+
+input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    font-family: inherit;
+}
+
+.input-readonly {
+    background-color: #f3f4f6;
+    color: var(--text-light);
+    cursor: not-allowed;
+}
+
+.row-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* --- TOMBOL NEH --- */
+.btn-primary, .btn-secondary, .btn-outline {
+    display: block;
+    width: 100%;
+    padding: 0.875rem;
+    text-align: center;
+    border-radius: 0.5rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.1s;
+    border: none;
+    font-size: 1rem;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+    color: white;
+    box-shadow: 0 4px 6px rgba(2, 132, 199, 0.3);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--text-light);
+    color: var(--text);
+}
+
+.quick-links {
+    list-style: none; 
+}
+
+.quick-links li {
+    margin-bottom: 0.5rem;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+/* --- FOOTER --- */
+footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Breakpoint 1: Untuk ukuran Tablet (768px ke atas) */
+@media (min-width: 48rem) { 
+    .row-group {
+        flex-direction: row; 
+    }
+    .half-width {
+        flex: 1; 
+    }
+    .hero-mungkeen {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+
+/* Breakpoint 2: Untuk ukuran Layar Lebar/Desktop (1024px ke atas) */
+@media (min-width: 64rem) { 
+    .features-grid {
+        grid-template-columns: repeat(3, 1fr); 
+    }
+}
