@@ -12,18 +12,19 @@ const jadwalSpeedboat = [
 ];
 
 const jadwalTanjungSelor = jadwalSpeedboat.filter(item => item.tujuan === 'Tanjung Selor');
-const infoKeberangkatan = jadwalSpeedboat.map(item => `${item.berangkat} WITA - ${item.nama} (${item.tujuan})`);
+
+const infoKeberangkatan = jadwalSpeedboat.map(({ berangkat, nama, tujuan }) => `${berangkat} WITA - ${nama} (${tujuan})`);
 
 console.log("=== BAGIAN D: JADWAL SPEEDBOAT PELABUHAN TENGKAYU ===");
 console.table(jadwalTanjungSelor);
+
 try {
     const ringkasan = ringkasJadwal(jadwalSpeedboat);
     console.log(`- Total Armada Beroperasi: ${ringkasan.totalArmada} Kapal`);
     console.log(`- Rata-rata Harga Tiket: Rp ${ringkasan.rataRataHarga.toLocaleString('id-ID')}`);
 } catch (error) {
-    console.error("Terjadi kesalahan:", error.message);
+    console.error("Terjadi kesalahan sistem pengolahan jadwal:", error.message);
 }
-
 
 console.log("\n=== BAGIAN E: JAWABAN LATIHAN ===");
 
@@ -37,9 +38,8 @@ function cariBerdasarkanId(idPencarian) {
 console.log("2. Hasil Pencarian Kapal dengan ID 5:");
 console.log(cariBerdasarkanId(5));
 
-
 console.log("3. Ringkasan Singkat Setiap Kapal:");
 jadwalSpeedboat.forEach(({ nama, tujuan, harga, lokasi }) => {
-    const ringkasanString = `🚢 Kapal ${nama} berangkat dari${lokasi} menuju ${tujuan}. Harga: Rp ${harga.toLocaleString('id-ID')}`;
+    const ringkasanString = `🚢 Kapal ${nama} berangkat dari ${lokasi} menuju ${tujuan}. Harga: Rp ${harga.toLocaleString('id-ID')}`;
     console.log(ringkasanString);
 });
