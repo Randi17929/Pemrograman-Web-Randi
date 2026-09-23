@@ -12,7 +12,6 @@ export function ringkasJadwal(data) {
         totalArmada: data.length,
         armadaPagi: jadwalPagi.length,
         armadaSiangSore: data.length - jadwalPagi.length,
-        
         rataRataHarga: data.reduce((sum, item) => sum + item.harga, 0) / data.length
     };
 }
