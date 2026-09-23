@@ -9,21 +9,40 @@
 </head>
 <body>
 
+    <!-- Sidebar Menu Melayang iiii takonyee -->
+    <nav id="sidebar" class="sidebar">
+        <!-- Tombol Tutup -->
+        <button id="close-sidebar" class="close-btn" aria-label="Tutup Menu">✖</button>
+        
+        <div class="sidebar-header">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Logo E-Ticketing" width="50">
+            <h2>E-Ticketing</h2>
+        </div>
+        
+        <ul class="sidebar-links">
+            <li><a href="tenggg.html">🏠 Beranda (Cari Tiket)</a></li>
+            <li><a href="jadwal.html">🗓️ Info Jadwal & Tarif Reguler</a></li>
+            <li><a href="panduan.html">💳 Panduan Pembayaran</a></li>
+            <li><a href="syarat.html">📜 Syarat & Ketentuan Penumpang</a></li>
+            <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
+        </ul>
+
+        <div style="margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem;">
+            <button id="theme-button" class="btn-outline" style="width: 100%;">🌓 Mode Tampilan</button>
+        </div>
+    </nav>
+    
+    <div id="sidebar-overlay" class="overlay"></div>
+
     <header class="navbar">
+        <button id="hamburger-menu" class="hamburger-btn" aria-label="Buka Menu Utama">
+            ☰
+        </button>
+        
         <div class="navbar-brand">
             <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Logo E-Ticketing" width="50">
             <h2>E-Ticketing Tengkayu</h2>
         </div>
-        
-        <nav class="nav-menu">
-            <ul>
-                <li><a href="tenggg.html">🏠 Beranda (Cari Tiket)</a></li>
-                <li><a href="jadwal.html">🗓️ Info Jadwal & Tarif Reguler</a></li>
-                <li><a href="panduan.html">💳 Panduan Pembayaran</a></li>
-                <li><a href="syarat.html">📜 Syarat & Ketentuan Penumpang</a></li>
-                <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
-            </ul>
-        </nav>
     </header>
 
     <section class="hero-mungkeen">
@@ -80,6 +99,36 @@
             </form>
         </section>
 
+        <section class="card">
+            <h3>🚤 Jadwal & Ketersediaan Kapal (Live)</h3>
+            
+            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+                <label for="limit" style="margin-right: 0.5rem; font-weight: bold;">Tampilkan:</label>
+                <select id="limit" style="width: auto; padding: 0.2rem; border-radius: 5px;">
+                    <option value="5">5 item</option>
+                    <option value="10">10 item</option>
+                    <option value="20">20 item</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="search"><b>Cari Nama Kapal atau Tujuan:</b></label>
+                <input id="search" type="search" placeholder="Ketik nama kapal atau tujuan...">
+            </div>
+
+            <div class="toolbar" aria-label="Filter inventaris" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <button data-filter="Semua" class="btn-primary" style="width: auto; padding: 0.5rem 1rem;">Semua Dermaga</button>
+                <button data-filter="Dermaga 1" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 1</button>
+                <button data-filter="Dermaga 2" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 2</button>
+                <button data-filter="Dermaga 3" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 3</button>
+                <button data-filter="Dermaga 4" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 4</button>
+            </div>
+            
+            <div id="daftar-jadwal" aria-live="polite" style="display: grid; gap: 1rem;">
+                <!-- Dirender JS -->
+            </div>
+        </section>
+
         <aside class="card highlight-card">
             <h3>⚡ Layanan Cepat</h3>
             <ul class="quick-links">
@@ -89,7 +138,8 @@
         </aside>
 
     </main>
-<section class="container" style="padding-top: 0;">
+
+    <section class="container" style="padding-top: 0;">
         <h3 style="text-align: center; margin-bottom: 1rem; width: 100%;">Kenapa Memilih Kami?</h3>
         <div class="features-grid">
             <div class="card">✅ <b>Pemesanan Mudah</b><br>Tanpa antre di pelabuhan.</div>
@@ -97,6 +147,24 @@
             <div class="card">🛡️ <b>Aman & Nyaman</b><br>Terintegrasi asuransi Jasa Raharja.</div>
         </div>
     </section>
+
+    <!-- [MODUL 5] Custom Modal untuk Rincian Tiket -->
+    <div id="detail-modal" class="modal-overlay">
+        <!-- Menggunakan class 'card' agar otomatis mewarisi warna terang/gelap -->
+        <div class="modal-content card">
+            <div class="modal-header">
+                <h3 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">🎫 Rincian Tiket</h3>
+                <button id="close-modal" class="close-modal-btn" aria-label="Tutup">✖</button>
+            </div>
+            <div class="modal-body" id="modal-body-content">
+                <!-- Konten akan diinjeksi melalui JS -->
+            </div>
+            <div class="modal-footer" style="margin-top: 1rem;">
+                <button id="modal-ok-btn" class="btn-primary">OK, Mengerti</button>
+            </div>
+        </div>
+    </div>
+
     <footer>
         <p>&copy; 2026 - Rancang Bangun Sistem Informasi E-Ticketing Speedboat<br>Proyek Pemrograman Web - Teknik Komputer</p>
     </footer>
