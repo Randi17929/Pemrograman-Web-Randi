@@ -11,12 +11,10 @@ const jadwalSpeedboat = [
     { id: 8, nama: 'SB. SRI EVA', tujuan: 'Berau', harga: 370000, berangkat: '11:00', tiba: '14:30', lokasi: 'Dermaga 1' }
 ];
 
-
 const themeButton = document.querySelector('#theme-button');
 const savedTheme = localStorage.getItem('theme') ?? 'light';
 document.documentElement.dataset.theme = savedTheme;
 
-// tombol mode kegelapan dan mode keterangan
 function updateThemeButtonText(theme) {
     if (theme === 'dark') {
         themeButton.textContent = '☀️ Mode Keterangan';
@@ -27,36 +25,30 @@ function updateThemeButtonText(theme) {
 
 updateThemeButtonText(savedTheme);
 
-// Event ketika tombol ganti tema dipencet
 themeButton.addEventListener('click', () => {
     const currentTheme = document.documentElement.dataset.theme;
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
     
-    // Ubah di tampilan UI HTML
     document.documentElement.dataset.theme = nextTheme;
     localStorage.setItem('theme', nextTheme);
     updateThemeButtonText(nextTheme);
 });
 
-// LOGIKA HAMBURGER MENU (DOM & EVENT)
+// LOGIKA HAMBURGER MENU (Interaksi DOM Tambahan)
 const hamburgerBtn = document.querySelector('#hamburger-menu');
 const closeBtn = document.querySelector('#close-sidebar');
 const sidebar = document.querySelector('#sidebar');
 const overlay = document.querySelector('#sidebar-overlay');
-
-// Fungsi untuk membuka menu
 hamburgerBtn.addEventListener('click', () => {
     sidebar.classList.add('active');
     overlay.classList.add('active');
 });
 
-// Fungsi untuk menutup menu dengan X
 closeBtn.addEventListener('click', () => {
     sidebar.classList.remove('active');
     overlay.classList.remove('active');
 });
 
-// Fungsi untuk menutup menu jika area gelap luar diklik
 overlay.addEventListener('click', () => {
     sidebar.classList.remove('active');
     overlay.classList.remove('active');
@@ -90,14 +82,13 @@ function renderItems(items) {
         const info = document.createElement('p');
         info.textContent = `Tujuan: ${item.tujuan} | Lokasi: ${item.lokasi} | Harga: Rp ${item.harga.toLocaleString('id-ID')}`;
 
-        // [Latihan 2] Tambahkan Tombol Detail
         const button = document.createElement('button');
         button.type = 'button';
         button.textContent = 'Lihat Detail';
         button.className = 'btn-outline'; 
         button.style.marginTop = '1rem';
         button.style.padding = '0.5rem';
-        // Menyimpan ID kapal
+        // Simpan ID sebagai penanda untuk Event Delegation
         button.dataset.detail = item.id;
 
         article.append(title, info, button);
@@ -134,7 +125,6 @@ searchInput.addEventListener('input', (event) => {
     renderItems(hasilPencarian.slice(0, limitActive));
 });
 
-
 const modalDetail = document.querySelector('#detail-modal');
 const modalContentDOM = document.querySelector('#modal-body-content');
 const btnTutupModal = document.querySelectorAll('#close-modal, #modal-ok-btn');
@@ -166,11 +156,9 @@ daftarJadwalDOM.addEventListener('click', (event) => {
         </p>
     `;
 
-    // Tampilkan modal pop-up meluncur
     modalDetail.classList.add('active');
 });
 
-// [Latihan 3] Simpan Preferensi Jumlah Item di localStorage
 const limitDropdown = document.querySelector('#limit');
 limitDropdown.value = localStorage.getItem('limit') ?? '5';
 

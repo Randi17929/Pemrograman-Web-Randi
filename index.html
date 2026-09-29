@@ -28,6 +28,7 @@
         </ul>
 
         <div style="margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem;">
+            <!-- [TUGAS OBE] Tombol Ganti Tema (Menyimpan status di Web Storage) -->
             <button id="theme-button" class="btn-outline" style="width: 100%;">🌓 Mode Tampilan</button>
         </div>
     </nav>
@@ -102,6 +103,7 @@
         <section class="card">
             <h3>🚤 Jadwal & Ketersediaan Kapal (Live)</h3>
             
+            <!-- [TUGAS OBE] Web Storage: Simpan preferensi jumlah limit item -->
             <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
                 <label for="limit" style="margin-right: 0.5rem; font-weight: bold;">Tampilkan:</label>
                 <select id="limit" style="width: auto; padding: 0.2rem; border-radius: 5px;">
@@ -111,6 +113,7 @@
                 </select>
             </div>
 
+            <!-- [TUGAS OBE] Interaksi 1: Pencarian Real-Time (Event Input) -->
             <div class="form-group">
                 <label for="search"><b>Cari Nama Kapal atau Tujuan:</b></label>
                 <input id="search" type="search" placeholder="Ketik nama kapal atau tujuan...">
@@ -125,7 +128,7 @@
             </div>
             
             <div id="daftar-jadwal" aria-live="polite" style="display: grid; gap: 1rem;">
-                <!-- Dirender JS -->
+                <!-- Dirender JS secara aman (Safe DOM Update) -->
             </div>
         </section>
 
@@ -148,7 +151,7 @@
         </div>
     </section>
 
-    <!-- [MODUL 5] Custom Modal untuk Rincian Tiket -->
+    <!-- [TUGAS OBE] Interaksi 2: Custom Modal Pop-up untuk Rincian Detail -->
     <div id="detail-modal" class="modal-overlay">
         <!-- Menggunakan class 'card' agar otomatis mewarisi warna terang/gelap -->
         <div class="modal-content card">
@@ -157,7 +160,7 @@
                 <button id="close-modal" class="close-modal-btn" aria-label="Tutup">✖</button>
             </div>
             <div class="modal-body" id="modal-body-content">
-                <!-- Konten akan diinjeksi melalui JS -->
+                <!-- Konten detail akan diinjeksi melalui JavaScript Event Delegation -->
             </div>
             <div class="modal-footer" style="margin-top: 1rem;">
                 <button id="modal-ok-btn" class="btn-primary">OK, Mengerti</button>
