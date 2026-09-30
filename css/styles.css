@@ -256,3 +256,31 @@ footer { text-align: center; padding: 2rem; color: var(--text-light); font-size:
 [data-theme="dark"] .modal-header, [data-theme="dark"] .modal-body hr {
     border-color: #334155 !important;
 }
+
+/* ============================================
+   [MODUL 6] VALIDASI FORM & ERROR HANDLING
+   ============================================ */
+.error-text {
+    color: #ef4444; 
+    font-size: 0.85rem;
+    margin-top: 0.25rem;
+    display: block;
+}
+
+input[aria-invalid="true"], 
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
+    border-color: #ef4444;
+    background-color: #fef2f2;
+}
+
+[data-theme="dark"] .error-text {
+    color: #f87171;
+}
+
+[data-theme="dark"] input[aria-invalid="true"], 
+[data-theme="dark"] select[aria-invalid="true"],
+[data-theme="dark"] textarea[aria-invalid="true"] {
+    border-color: #f87171;
+    background-color: rgba(239, 68, 68, 0.1);
+}
