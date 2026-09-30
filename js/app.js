@@ -198,4 +198,142 @@ console.log("3. Ringkasan Singkat Setiap Kapal:");
 jadwalSpeedboat.forEach(({ nama, tujuan, harga, lokasi }) => {
     const ringkasanString = `🚢 Kapal ${nama} berangkat dari ${lokasi} menuju ${tujuan}. Harga: Rp ${harga.toLocaleString('id-ID')}`;
     console.log(ringkasanString);
-});
+}); 
+
+
+const formPesan = document.querySelector('#form-pesan-tiket');
+const errorSummary = document.querySelector('#error-summary');
+
+// Fungsi Input Handling (Normalisasi Data)
+function bacaDataForm(form) {
+    return {
+        nama: form.nama.value.trim(),
+        kontak: form.kontak.value.trim().toLowerCase(),
+        tujuan: form.ke.value,
+        tanggal: form.tanggal.value,
+        penumpang: Number(form.penumpang.value),
+        catatan: form.catatan.value.trim(),
+        setuju: form.setuju.checked
+    };
+}
+
+// Fungsi Validasi Aturan
+function validasiForm(data) {
+    const errors = {};
+
+    // Aturan 1: Nama minimal 3 karakter
+    if (!data.nama || data.nama.length < 3) {
+        errors.nama = 'Nama lengkap wajib diisi minimal 3 karakter.';
+    }
+
+    // Aturan 2: Kontak wajib diisi
+    if (!data.kontak) {
+        errors.kontak = 'Email atau No. WhatsApp wajib diisi.';
+    }
+
+    // Aturan 3: Tujuan wajib dipilih
+    if (!data.tujuan) {
+        errors.ke = 'Silakan pilih pelabuhan tujuan.';
+    }
+
+    // Aturan 4: Tanggal tidak boleh masa lalu
+    if (!data.tanggal) {
+        errors.tanggal = 'Tanggal keberangkatan wajib diisi.';
+    } else {
+        const hariIni = new Date().toISOString().split('T')[0];
+        if (data.tanggal < hariIni) {
+            errors.tanggal = 'Tanggal keberangkatan tidak boleh di masa lalu.';
+        }
+    }
+
+    // Aturan 5: Jumlah Penumpang harus angka 1-10
+    if (data.penumpang < 1 || data.penumpang > 10) {
+        errors.penumpang = 'Jumlah penumpang harus antara 1 hingga 10.';
+    }
+
+    // Aturan Tambahan: Catatan maksimal 200 karakter
+    if (data.catatan.length > 200) {
+        errors.catatan = 'Catatan tidak boleh lebih dari 200 karakter.';
+    }
+
+    // Aturan Tambahan: Wajib centang persetujuan
+    if (!data.setuju) {
+        errors.setuju = 'Anda wajib menyetujui syarat & ketentuan.';
+    }
+
+    return errors;
+}
+
+//  Alur Validasi Saat Submit
+if (formPesan) {
+    formPesan.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const data = bacaDataForm(formPesan);
+        const errors = validasiForm(data);
+
+        // Reset semua error state
+        formPesan.querySelectorAll('.error-text').forEach(el => el.textContent = '');
+        formPesan.querySelectorAll('[aria-invalid="true"]').forEach(el => el.removeAttribute('aria-invalid'));
+        errorSummary.style.display = 'none';
+        errorSummary.textContent = '';
+
+        // Jika terdapat error
+        const daftarError = Object.keys(errors);
+        if (daftarError.length > 0) {
+            
+            // munculin error di masing-masing field
+            for (const [field, message] of Object.entries(errors)) {
+                document.querySelector(`#error-${field}`).textContent = message;
+                formPesan.elements[field]?.setAttribute('aria-invalid', 'true');
+            }
+
+            // Tampilkan error summary di atas form
+            errorSummary.textContent = `Pemesanan gagal. Terdapat ${daftarError.length} kolom yang harus diperbaiki.`;
+            errorSummary.style.display = 'block';
+
+            // Fokus ke field error pertama
+            formPesan.elements[daftarError[0]]?.focus();
+            
+            return; 
+        }
+
+// --- SKENARIO MUNGKEEN VALID ---
+        alert('Data valid! Simulasi berhasil, mengarahkan ke halaman pembayaran...');
+        formPesan.reset();
+    });
+}
+
+// Mengatur aksi tombol form pencarian di bagian atas
+const formCari = document.querySelector('#form-cari-tiket');
+const inputCariKe = document.querySelector('#cari_ke'); // Mengambil elemen select Tujuan
+
+if (formCari) {
+    formCari.addEventListener('submit', (event) => {
+        event.preventDefault(); // Mencegah reload halaman
+        
+        const tujuanPilihan = inputCariKe.value;
+        const limitActive = Number(document.querySelector('#limit').value);
+
+        let hasilPencarian;
+        if (tujuanPilihan === "") {
+            hasilPencarian = jadwalSpeedboat;
+        } else {
+            hasilPencarian = jadwalSpeedboat.filter(item => item.tujuan === tujuanPilihan);
+        }
+        renderItems(hasilPencarian.slice(0, limitActive));
+
+        const tombolFilter = document.querySelectorAll('[data-filter]');
+        tombolFilter.forEach(btn => btn.classList.replace('btn-primary', 'btn-outline'));
+        
+        const searchInputLive = document.querySelector('#search');
+        if(searchInputLive) {
+             searchInputLive.value = tujuanPilihan;
+        }
+
+        const bagianJadwal = document.querySelector('#bagian-jadwal');
+        if (bagianJadwal) {
+            bagianJadwal.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
