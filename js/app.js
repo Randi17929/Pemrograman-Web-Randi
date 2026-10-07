@@ -1,15 +1,56 @@
 import { ringkasJadwal } from './utils.js';
 
-const jadwalSpeedboat = [
-    { id: 1, nama: 'SB. TRI PUTRI TD 2005', tujuan: 'Pulau Bunyu', harga: 120000, berangkat: '09:00', tiba: '10:00', lokasi: 'Dermaga 1' },
-    { id: 2, nama: 'SB. MINSEN EXPRESS XIII', tujuan: 'Tideng Pale', harga: 235000, berangkat: '09:15', tiba: '11:45', lokasi: 'Dermaga 2' },
-    { id: 3, nama: 'SB. MINSEN EXPRESS XI', tujuan: 'Tanjung Selor', harga: 145000, berangkat: '07:00', tiba: '08:30', lokasi: 'Dermaga 1' },
-    { id: 4, nama: 'SB. MENARA NIKLAS', tujuan: 'Tanjung Selor', harga: 145000, berangkat: '16:10', tiba: '17:30', lokasi: 'Dermaga 3' },
-    { id: 5, nama: 'SB. SADEWATA 01', tujuan: 'Nunukan', harga: 280000, berangkat: '07:15', tiba: '10:00', lokasi: 'Dermaga 1' },
-    { id: 6, nama: 'SB. NEW HARAPAN BARU V', tujuan: 'Malinau', harga: 310000, berangkat: '07:00', tiba: '10:00', lokasi: 'Dermaga 2' },
-    { id: 7, nama: 'SB. LESTARI BENUANTA VIP', tujuan: 'Sungai Nyamuk', harga: 280000, berangkat: '08:00', tiba: '10:30', lokasi: 'Dermaga 3' },
-    { id: 8, nama: 'SB. SRI EVA', tujuan: 'Berau', harga: 370000, berangkat: '11:00', tiba: '14:30', lokasi: 'Dermaga 1' }
-];
+// Variabel global kosong untuk menampung data dari API
+let jadwalSpeedboat = [];
+
+// Elemen DOM untuk UI State
+const daftarJadwalDOM = document.querySelector('#daftar-jadwal');
+const apiMessage = document.querySelector('#api-message');
+const btnRetry = document.querySelector('#btn-retry');
+
+// Fungsi Async/Await untuk Fetch API
+async function loadJadwalAPI() {
+    apiMessage.textContent = '⏳ Memuat data jadwal kapal...';
+    apiMessage.style.color = 'var(--brand)';
+    btnRetry.style.display = 'none';
+    daftarJadwalDOM.innerHTML = ''; 
+
+    try {
+        // Lakukan GET Request ke file JSON lokal
+        const response = await fetch('./data/jadwal.json');
+        
+        if (!response.ok) {
+            throw new Error(`HTTP Error Status: ${response.status}`);
+        }
+
+        // Parse format JSON menjadi array JavaScript
+        const data = await response.json();
+        jadwalSpeedboat = data;
+
+        apiMessage.textContent = `✅ Berhasil memuat ${jadwalSpeedboat.length} jadwal keberangkatan.`;
+        apiMessage.style.color = '#10b981';
+        
+        setTimeout(() => { apiMessage.textContent = ''; }, 3000);
+
+        // Render data pertama kali ke DOM
+        const limitDropdown = document.querySelector('#limit');
+        renderItems(jadwalSpeedboat.slice(0, Number(limitDropdown.value)));
+        jalankanAnalisaConsole();
+
+    } catch (error) {
+        console.error("Gagal Fetch API:", error);
+        apiMessage.textContent = '❌ Gagal memuat data dari server. Periksa koneksi Anda.';
+        apiMessage.style.color = '#ef4444'; 
+        btnRetry.style.display = 'block'; 
+    }
+}
+
+// Event Listener untuk Tombol Retry
+btnRetry.addEventListener('click', loadJadwalAPI);
+
+// Inisialisasi awal saat halaman dimuat
+loadJadwalAPI();
+
 
 const themeButton = document.querySelector('#theme-button');
 const savedTheme = localStorage.getItem('theme') ?? 'light';
@@ -22,19 +63,17 @@ function updateThemeButtonText(theme) {
         themeButton.textContent = '🌙 Mode Kegelapan';
     }
 }
-
 updateThemeButtonText(savedTheme);
 
 themeButton.addEventListener('click', () => {
     const currentTheme = document.documentElement.dataset.theme;
     const nextTheme = currentTheme === 'dark' ? 'light' : 'dark';
-    
     document.documentElement.dataset.theme = nextTheme;
     localStorage.setItem('theme', nextTheme);
     updateThemeButtonText(nextTheme);
 });
 
-// LOGIKA HAMBURGER MENU (Interaksi DOM Tambahan)
+// LOGIKA HAMBURGER MENU
 const hamburgerBtn = document.querySelector('#hamburger-menu');
 const closeBtn = document.querySelector('#close-sidebar');
 const sidebar = document.querySelector('#sidebar');
@@ -43,18 +82,15 @@ hamburgerBtn.addEventListener('click', () => {
     sidebar.classList.add('active');
     overlay.classList.add('active');
 });
-
 closeBtn.addEventListener('click', () => {
     sidebar.classList.remove('active');
     overlay.classList.remove('active');
 });
-
 overlay.addEventListener('click', () => {
     sidebar.classList.remove('active');
     overlay.classList.remove('active');
 });
 
-const daftarJadwalDOM = document.querySelector('#daftar-jadwal');
 const tombolFilter = document.querySelectorAll('[data-filter]');
 
 function renderItems(items) {
@@ -88,7 +124,6 @@ function renderItems(items) {
         button.className = 'btn-outline'; 
         button.style.marginTop = '1rem';
         button.style.padding = '0.5rem';
-        // Simpan ID sebagai penanda untuk Event Delegation
         button.dataset.detail = item.id;
 
         article.append(title, info, button);
@@ -167,44 +202,26 @@ limitDropdown.addEventListener('change', () => {
     renderItems(jadwalSpeedboat.slice(0, Number(limitDropdown.value)));
 });
 
-renderItems(jadwalSpeedboat.slice(0, Number(limitDropdown.value)));
 
-const jadwalTanjungSelor = jadwalSpeedboat.filter(item => item.tujuan === 'Tanjung Selor');
-const infoKeberangkatan = jadwalSpeedboat.map(({ berangkat, nama, tujuan }) => `${berangkat} WITA - ${nama} (${tujuan})`);
+// Fungsi untuk memisahkan console log analisis agar dijalankan setelah data API selesai dimuat
+function jalankanAnalisaConsole() {
+    const jadwalTanjungSelor = jadwalSpeedboat.filter(item => item.tujuan === 'Tanjung Selor');
+    console.log("=== BAGIAN D: JADWAL SPEEDBOAT PELABUHAN TENGKAYU ===");
+    console.table(jadwalTanjungSelor);
 
-console.log("=== BAGIAN D: JADWAL SPEEDBOAT PELABUHAN TENGKAYU ===");
-console.table(jadwalTanjungSelor);
-
-try {
-    const ringkasan = ringkasJadwal(jadwalSpeedboat);
-    console.log(`- Total Armada Beroperasi: ${ringkasan.totalArmada} Kapal`);
-    console.log(`- Rata-rata Harga Tiket: Rp ${ringkasan.rataRataHarga.toLocaleString('id-ID')}`);
-} catch (error) {
-    console.error("Terjadi kesalahan sistem pengolahan jadwal:", error.message);
+    try {
+        const ringkasan = ringkasJadwal(jadwalSpeedboat);
+        console.log(`- Total Armada Beroperasi: ${ringkasan.totalArmada} Kapal`);
+        console.log(`- Rata-rata Harga Tiket: Rp ${ringkasan.rataRataHarga.toLocaleString('id-ID')}`);
+    } catch (error) {
+        console.error("Terjadi kesalahan sistem pengolahan jadwal:", error.message);
+    }
 }
-
-console.log("\n=== JADWAL KAPAL BERDASARKAN DERMAGA ===");
-const kapalDermaga1 = jadwalSpeedboat.filter(item => item.lokasi === 'Dermaga 1');
-console.log("1. Daftar Kapal yang Bersandar di Dermaga 1:");
-console.table(kapalDermaga1);
-
-function cariBerdasarkanId(idPencarian) {
-    return jadwalSpeedboat.find(item => item.id === idPencarian);
-}
-console.log("2. Hasil Pencarian Kapal dengan ID 5:");
-console.log(cariBerdasarkanId(5));
-
-console.log("3. Ringkasan Singkat Setiap Kapal:");
-jadwalSpeedboat.forEach(({ nama, tujuan, harga, lokasi }) => {
-    const ringkasanString = `🚢 Kapal ${nama} berangkat dari ${lokasi} menuju ${tujuan}. Harga: Rp ${harga.toLocaleString('id-ID')}`;
-    console.log(ringkasanString);
-}); 
 
 
 const formPesan = document.querySelector('#form-pesan-tiket');
 const errorSummary = document.querySelector('#error-summary');
 
-// Fungsi Input Handling (Normalisasi Data)
 function bacaDataForm(form) {
     return {
         nama: form.nama.value.trim(),
@@ -217,100 +234,57 @@ function bacaDataForm(form) {
     };
 }
 
-// Fungsi Validasi Aturan
 function validasiForm(data) {
     const errors = {};
-
-    // Aturan 1: Nama minimal 3 karakter
-    if (!data.nama || data.nama.length < 3) {
-        errors.nama = 'Nama lengkap wajib diisi minimal 3 karakter.';
-    }
-
-    // Aturan 2: Kontak wajib diisi
-    if (!data.kontak) {
-        errors.kontak = 'Email atau No. WhatsApp wajib diisi.';
-    }
-
-    // Aturan 3: Tujuan wajib dipilih
-    if (!data.tujuan) {
-        errors.ke = 'Silakan pilih pelabuhan tujuan.';
-    }
-
-    // Aturan 4: Tanggal tidak boleh masa lalu
+    if (!data.nama || data.nama.length < 3) errors.nama = 'Nama lengkap wajib diisi minimal 3 karakter.';
+    if (!data.kontak) errors.kontak = 'Email atau No. WhatsApp wajib diisi.';
+    if (!data.tujuan) errors.ke = 'Silakan pilih pelabuhan tujuan.';
     if (!data.tanggal) {
         errors.tanggal = 'Tanggal keberangkatan wajib diisi.';
     } else {
         const hariIni = new Date().toISOString().split('T')[0];
-        if (data.tanggal < hariIni) {
-            errors.tanggal = 'Tanggal keberangkatan tidak boleh di masa lalu.';
-        }
+        if (data.tanggal < hariIni) errors.tanggal = 'Tanggal keberangkatan tidak boleh di masa lalu.';
     }
-
-    // Aturan 5: Jumlah Penumpang harus angka 1-10
-    if (data.penumpang < 1 || data.penumpang > 10) {
-        errors.penumpang = 'Jumlah penumpang harus antara 1 hingga 10.';
-    }
-
-    // Aturan Tambahan: Catatan maksimal 200 karakter
-    if (data.catatan.length > 200) {
-        errors.catatan = 'Catatan tidak boleh lebih dari 200 karakter.';
-    }
-
-    // Aturan Tambahan: Wajib centang persetujuan
-    if (!data.setuju) {
-        errors.setuju = 'Anda wajib menyetujui syarat & ketentuan.';
-    }
-
+    if (data.penumpang < 1 || data.penumpang > 10) errors.penumpang = 'Jumlah penumpang harus antara 1 hingga 10.';
+    if (data.catatan.length > 200) errors.catatan = 'Catatan tidak boleh lebih dari 200 karakter.';
+    if (!data.setuju) errors.setuju = 'Anda wajib menyetujui syarat & ketentuan.';
     return errors;
 }
 
-//  Alur Validasi Saat Submit
 if (formPesan) {
     formPesan.addEventListener('submit', (event) => {
         event.preventDefault();
-
         const data = bacaDataForm(formPesan);
         const errors = validasiForm(data);
 
-        // Reset semua error state
         formPesan.querySelectorAll('.error-text').forEach(el => el.textContent = '');
         formPesan.querySelectorAll('[aria-invalid="true"]').forEach(el => el.removeAttribute('aria-invalid'));
         errorSummary.style.display = 'none';
         errorSummary.textContent = '';
 
-        // Jika terdapat error
         const daftarError = Object.keys(errors);
         if (daftarError.length > 0) {
-            
-            // munculin error di masing-masing field
             for (const [field, message] of Object.entries(errors)) {
                 document.querySelector(`#error-${field}`).textContent = message;
                 formPesan.elements[field]?.setAttribute('aria-invalid', 'true');
             }
-
-            // Tampilkan error summary di atas form
             errorSummary.textContent = `Pemesanan gagal. Terdapat ${daftarError.length} kolom yang harus diperbaiki.`;
             errorSummary.style.display = 'block';
-
-            // Fokus ke field error pertama
             formPesan.elements[daftarError[0]]?.focus();
-            
             return; 
         }
 
-// --- SKENARIO MUNGKEEN VALID ---
         alert('Data valid! Simulasi berhasil, mengarahkan ke halaman pembayaran...');
         formPesan.reset();
     });
 }
 
-// Mengatur aksi tombol form pencarian di bagian atas
 const formCari = document.querySelector('#form-cari-tiket');
-const inputCariKe = document.querySelector('#cari_ke'); // Mengambil elemen select Tujuan
+const inputCariKe = document.querySelector('#cari_ke'); 
 
 if (formCari) {
     formCari.addEventListener('submit', (event) => {
-        event.preventDefault(); // Mencegah reload halaman
+        event.preventDefault(); 
         
         const tujuanPilihan = inputCariKe.value;
         const limitActive = Number(document.querySelector('#limit').value);
@@ -327,13 +301,9 @@ if (formCari) {
         tombolFilter.forEach(btn => btn.classList.replace('btn-primary', 'btn-outline'));
         
         const searchInputLive = document.querySelector('#search');
-        if(searchInputLive) {
-             searchInputLive.value = tujuanPilihan;
-        }
+        if(searchInputLive) searchInputLive.value = tujuanPilihan;
 
         const bagianJadwal = document.querySelector('#bagian-jadwal');
-        if (bagianJadwal) {
-            bagianJadwal.scrollIntoView({ behavior: 'smooth' });
-        }
+        if (bagianJadwal) bagianJadwal.scrollIntoView({ behavior: 'smooth' });
     });
 }
