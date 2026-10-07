@@ -1,0 +1,10 @@
+[
+    { "id": 1, "nama": "SB. TRI PUTRI TD 2005", "tujuan": "Pulau Bunyu", "harga": 120000, "berangkat": "09:00", "tiba": "10:00", "lokasi": "Dermaga 1" },
+    { "id": 2, "nama": "SB. MINSEN EXPRESS XIII", "tujuan": "Tideng Pale", "harga": 235000, "berangkat": "09:15", "tiba": "11:45", "lokasi": "Dermaga 2" },
+    { "id": 3, "nama": "SB. MINSEN EXPRESS XI", "tujuan": "Tanjung Selor", "harga": 145000, "berangkat": "07:00", "tiba": "08:30", "lokasi": "Dermaga 1" },
+    { "id": 4, "nama": "SB. MENARA NIKLAS", "tujuan": "Tanjung Selor", "harga": 145000, "berangkat": "16:10", "tiba": "17:30", "lokasi": "Dermaga 3" },
+    { "id": 5, "nama": "SB. SADEWATA 01", "tujuan": "Nunukan", "harga": 280000, "berangkat": "07:15", "tiba": "10:00", "lokasi": "Dermaga 1" },
+    { "id": 6, "nama": "SB. NEW HARAPAN BARU V", "tujuan": "Malinau", "harga": 310000, "berangkat": "07:00", "tiba": "10:00", "lokasi": "Dermaga 2" },
+    { "id": 7, "nama": "SB. LESTARI BENUANTA VIP", "tujuan": "Sungai Nyamuk", "harga": 280000, "berangkat": "08:00", "tiba": "10:30", "lokasi": "Dermaga 3" },
+    { "id": 8, "nama": "SB. SRI EVA", "tujuan": "Berau", "harga": 370000, "berangkat": "11:00", "tiba": "14:30", "lokasi": "Dermaga 1" }
+]
