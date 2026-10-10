@@ -10,7 +10,7 @@ const btnRetry = document.querySelector('#btn-retry');
 
 // Fungsi Async/Await untuk Fetch API
 async function loadJadwalAPI() {
-    apiMessage.textContent = '⏳ Memuat data jadwal kapal...';
+    apiMessage.textContent = 'Memuat data jadwal kapal...';
     apiMessage.style.color = 'var(--brand)';
     btnRetry.style.display = 'none';
     daftarJadwalDOM.innerHTML = ''; 
