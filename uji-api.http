@@ -1,0 +1,23 @@
+### 1. Uji Method GET (Status 200 OK)
+GET http://localhost/pemweb-obe/api/jadwal.php
+
+### 2. Uji Method POST - Nama > 100 Karakter (Status 422)
+POST http://localhost/pemweb-obe/api/jadwal.php
+Content-Type: application/json
+
+{
+  "nama": "SB. KAPAL CEPAT SUPER KILAT EXPRESS TANPA HAMBATAN MELINTASI SAMUDRA HINDIA MENUJU TAK TERBATAS DAN MELAMPAUINYA",
+  "tujuan": "Pulau Bunyu"
+}
+
+### 3. Uji Method POST - JSON Rusak (Status 400)
+POST http://localhost/pemweb-obe/api/jadwal.php
+Content-Type: application/json
+
+{
+  "nama": "SB. TRI PUTRI,
+  "tujuan": "Pulau Bunyu"
+}
+
+### 4. Uji Method DELETE (Status 405)
+DELETE http://localhost/pemweb-obe/api/jadwal.php

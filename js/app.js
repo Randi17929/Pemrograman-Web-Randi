@@ -16,8 +16,8 @@ async function loadJadwalAPI() {
     daftarJadwalDOM.innerHTML = ''; 
 
     try {
-        // Lakukan GET Request ke file JSON lokal
-        const response = await fetch('./data/jadwal.json');
+        // Arahkan fetch ke endpoint PHP backend lokal Anda
+        const response = await fetch('./api/jadwal.php');
         
         if (!response.ok) {
             throw new Error(`HTTP Error Status: ${response.status}`);
