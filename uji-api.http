@@ -1,7 +1,32 @@
-### 1. Uji Method GET (Status 200 OK)
+### 1. Uji Method GET (Mengambil jadwal & Status 200 OK)
 GET http://localhost/pemweb-obe/api/jadwal.php
 
-### 2. Uji Method POST - Nama > 100 Karakter (Status 422)
+### 2. Uji Method POST (Simulasi tambah jadwal sukses & Status 201 Created)
+POST http://localhost/pemweb-obe/api/jadwal.php
+Content-Type: application/json
+
+{
+  "nama": "SB. HARAPAN BARU",
+  "tujuan": "Tarakan",
+  "harga": 150000,
+  "berangkat": "08:00",
+  "tiba": "10:00",
+  "lokasi": "Dermaga 3"
+}
+
+### 3. Uji Method POST - JSON Tidak Valid (Status 400 Bad Request)
+# Sengaja menghilangkan kutip ganda penutup pada properti "nama"
+POST http://localhost/pemweb-obe/api/jadwal.php
+Content-Type: application/json
+
+{
+  "nama": "SB. HARAPAN BARU,
+  "tujuan": "Tarakan",
+  "harga": 150000
+}
+
+### 4. Uji Method POST - Gagal Validasi Aturan Bisnis (Status 422 Unprocessable Entity)
+# Nama kapal melebihi batas 100 karakter
 POST http://localhost/pemweb-obe/api/jadwal.php
 Content-Type: application/json
 
@@ -10,14 +35,5 @@ Content-Type: application/json
   "tujuan": "Pulau Bunyu"
 }
 
-### 3. Uji Method POST - JSON Rusak (Status 400)
-POST http://localhost/pemweb-obe/api/jadwal.php
-Content-Type: application/json
-
-{
-  "nama": "SB. TRI PUTRI,
-  "tujuan": "Pulau Bunyu"
-}
-
-### 4. Uji Method DELETE (Status 405)
+### 5. Uji Method DELETE - Metode Tidak Diizinkan (Status 405 Method Not Allowed)
 DELETE http://localhost/pemweb-obe/api/jadwal.php
