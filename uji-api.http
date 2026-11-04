@@ -1,18 +1,78 @@
-### 1. Uji GET Semua Jadwal (Langsung dari Database)
+### =========================================
+### PENGUJIAN READ (GET)
+### =========================================
+
+### 1. GET Semua Jadwal (Expected: 200 OK)
 GET http://localhost/pemweb-obe/api/jadwal.php
 
-### 2. Uji GET dengan Parameter (Latihan Prepared Statement Filter)
+### 2. GET Jadwal dengan Filter Tujuan (Expected: 200 OK)
 GET http://localhost/pemweb-obe/api/jadwal.php?tujuan=Pulau Bunyu
 
-### 3. Uji POST Insert Data ke Database (Latihan Prepared Statement Insert)
+### 3. GET Jadwal by ID Valid (Expected: 200 OK)
+# Catatan: Sesuaikan angka id=1 dengan ID yang ada di database Anda
+GET http://localhost/pemweb-obe/api/jadwal.php?id=1
+
+### 4. GET Jadwal by ID Invalid / Tidak Ada (Expected: 404 Not Found)
+GET http://localhost/pemweb-obe/api/jadwal.php?id=9999
+
+
+### =========================================
+### PENGUJIAN CREATE (POST)
+### =========================================
+
+### 5. POST Tambah Jadwal Baru (Expected: 201 Created)
 POST http://localhost/pemweb-obe/api/jadwal.php
 Content-Type: application/json
 
 {
-  "armada_id": 1,
-  "pelabuhan_id": 3,
-  "harga": 150000,
-  "berangkat": "14:00:00",
-  "tiba": "15:30:00",
-  "lokasi": "Dermaga 3"
+    "armada_id": 1,
+    "pelabuhan_id": 2,
+    "harga": 150000,
+    "berangkat": "08:00:00",
+    "tiba": "09:30:00",
+    "lokasi": "Dermaga 2"
 }
+
+### 6. POST Tambah Jadwal Tanpa ID (Expected: 422 Unprocessable Entity)
+# Ini untuk menguji validasi error handling kita
+POST http://localhost/pemweb-obe/api/jadwal.php
+Content-Type: application/json
+
+{
+    "harga": 150000,
+    "berangkat": "08:00:00"
+}
+
+
+### =========================================
+### PENGUJIAN UPDATE (PUT)
+### =========================================
+
+### 7. PUT Update Harga Jadwal (Expected: 200 OK)
+# Catatan: Ubah angka ?id=... dengan "inserted_id" yang Anda dapat dari hasil POST nomor 5
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
+Content-Type: application/json
+
+{
+    "harga": 175000
+}
+
+### 8. PUT Update Jadwal Invalid / Tidak Ada (Expected: 404 Not Found)
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=9999
+Content-Type: application/json
+
+{
+    "harga": 175000
+}
+
+
+### =========================================
+### PENGUJIAN DELETE (DELETE)
+### =========================================
+
+### 9. DELETE Hapus Jadwal (Expected: 204 No Content)
+# Catatan: Ubah angka ?id=... dengan ID yang ingin dihapus
+DELETE http://localhost/pemweb-obe/api/jadwal.php?id=1
+
+### 10. DELETE Hapus Jadwal Invalid / Tidak Ada (Expected: 404 Not Found)
+DELETE http://localhost/pemweb-obe/api/jadwal.php?id=9999
