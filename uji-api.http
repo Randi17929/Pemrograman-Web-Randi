@@ -1,28 +1,37 @@
-### =========================================
-### PENGUJIAN READ (GET)
-### =========================================
+### Variabel URL Utama (Pastikan Laragon sudah menyala)
+@baseUrl = http://localhost/pemweb-obe/api/jadwal.php
 
-### 1. GET Semua Jadwal (Expected: 200 OK)
-GET http://localhost/pemweb-obe/api/jadwal.php
-
-### 2. GET Jadwal dengan Filter Tujuan (Expected: 200 OK)
-GET http://localhost/pemweb-obe/api/jadwal.php?tujuan=Pulau Bunyu
-
-### 3. GET Jadwal by ID Valid (Expected: 200 OK)
-# Catatan: Sesuaikan angka id=1 dengan ID yang ada di database Anda
-GET http://localhost/pemweb-obe/api/jadwal.php?id=1
-
-### 4. GET Jadwal by ID Invalid / Tidak Ada (Expected: 404 Not Found)
-GET http://localhost/pemweb-obe/api/jadwal.php?id=9999
+### ==========================================
+### 1. READ ALL (GET Collection)
+### Ekspektasi: Status 200 OK, memunculkan semua data jadwal
+### ==========================================
+GET {{baseUrl}}
+Accept: application/json
 
 
-### =========================================
-### PENGUJIAN CREATE (POST)
-### =========================================
+### ==========================================
+### 2. READ WITH FILTER (GET)
+### Ekspektasi: Status 200 OK, hanya memunculkan jadwal ke Pulau Bunyu
+### ==========================================
+GET {{baseUrl}}?tujuan=Pulau%20Bunyu
+Accept: application/json
 
-### 5. POST Tambah Jadwal Baru (Expected: 201 Created)
-POST http://localhost/pemweb-obe/api/jadwal.php
+
+### ==========================================
+### 3. READ BY ID (GET)
+### Ekspektasi: Status 200 OK, menampilkan satu detail armada
+### ==========================================
+GET {{baseUrl}}?id=1
+Accept: application/json
+
+
+### ==========================================
+### 4. CREATE (POST) - Tambah Jadwal Baru
+### Ekspektasi: Status 201 Created, data berhasil masuk database
+### ==========================================
+POST {{baseUrl}}
 Content-Type: application/json
+Accept: application/json
 
 {
     "armada_id": 1,
@@ -30,49 +39,39 @@ Content-Type: application/json
     "harga": 150000,
     "berangkat": "08:00:00",
     "tiba": "09:30:00",
-    "lokasi": "Dermaga 2"
-}
-
-### 6. POST Tambah Jadwal Tanpa ID (Expected: 422 Unprocessable Entity)
-# Ini untuk menguji validasi error handling kita
-POST http://localhost/pemweb-obe/api/jadwal.php
-Content-Type: application/json
-
-{
-    "harga": 150000,
-    "berangkat": "08:00:00"
+    "lokasi": "Dermaga 1"
 }
 
 
-### =========================================
-### PENGUJIAN UPDATE (PUT)
-### =========================================
-
-### 7. PUT Update Harga Jadwal (Expected: 200 OK)
-# Catatan: Ubah angka ?id=... dengan "inserted_id" yang Anda dapat dari hasil POST nomor 5
-PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
+### ==========================================
+### 5. UPDATE (PUT) - Ubah Harga Tiket
+### Ekspektasi: Status 200 OK, harga berhasil diperbarui
+### ==========================================
+PUT {{baseUrl}}?id=1
 Content-Type: application/json
-
-{
-    "harga": 175000
-}
-
-### 8. PUT Update Jadwal Invalid / Tidak Ada (Expected: 404 Not Found)
-PUT http://localhost/pemweb-obe/api/jadwal.php?id=9999
-Content-Type: application/json
+Accept: application/json
 
 {
     "harga": 175000
 }
 
 
-### =========================================
-### PENGUJIAN DELETE (DELETE)
-### =========================================
+### ==========================================
+### 6. ERROR 404 (DELETE INVALID ID)
+### Ekspektasi: Status 404 Not Found, menguji penolakan data fiktif
+### ==========================================
+DELETE {{baseUrl}}?id=9999
+Accept: application/json
 
-### 9. DELETE Hapus Jadwal (Expected: 204 No Content)
-# Catatan: Ubah angka ?id=... dengan ID yang ingin dihapus
-DELETE http://localhost/pemweb-obe/api/jadwal.php?id=1
 
-### 10. DELETE Hapus Jadwal Invalid / Tidak Ada (Expected: 404 Not Found)
-DELETE http://localhost/pemweb-obe/api/jadwal.php?id=9999
+### ==========================================
+### 7. ERROR 422 (POST INVALID PAYLOAD)
+### Ekspektasi: Status 422 Unprocessable Entity, menguji penolakan input kosong
+### ==========================================
+POST {{baseUrl}}
+Content-Type: application/json
+Accept: application/json
+
+{
+    "harga": 150000
+}
