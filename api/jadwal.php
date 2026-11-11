@@ -4,6 +4,8 @@
 header('Content-Type: application/json');
 require_once '../config/Database.php';
 
+require_once '../config/auth.php'; // Sertakan helper proteksi
+
 // Fungsi Helper untuk format respons Error yang konsisten
 function jsonError($code, $message, $details = null) {
     http_response_code($code);
@@ -104,9 +106,13 @@ try {
     /* =========================================
        CREATE (POST)
        ========================================= */
+       
     elseif ($method === 'POST') {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
+
+        // Hanya Admin dan Petugas yang bisa menambah/merubah jadwal
+        requireRole(['admin', 'petugas']);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
             jsonError(400, 'Format JSON tidak valid.');
@@ -175,7 +181,9 @@ try {
         if (!$id) {
             jsonError(400, 'ID jadwal wajib disertakan untuk menghapus data (contoh: ?id=1).');
         }
-
+        // Hanya Admin yang bisa menghapus jadwal
+        requireRole(['admin']);
+        
         // Cek eksistensi data sebelum delete
         $cekQuery = "SELECT id FROM jadwal WHERE id = :id";
         $cekStmt = $db->prepare($cekQuery);

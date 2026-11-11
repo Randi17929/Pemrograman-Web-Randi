@@ -1,77 +1,45 @@
-### Variabel URL Utama (Pastikan Laragon sudah menyala)
-@baseUrl = http://localhost/pemweb-obe/api/jadwal.php
+@baseUrl = http://localhost/pemweb-obe/api
 
-### ==========================================
-### 1. READ ALL (GET Collection)
-### Ekspektasi: Status 200 OK, memunculkan semua data jadwal
-### ==========================================
-GET {{baseUrl}}
+### 1. UJI AKSES ANONYMOUS (Belum Login)
+### Ekspektasi: 401 Unauthorized (Ditolak saat cek profil)
+GET {{baseUrl}}/me.php
 Accept: application/json
 
-
-### ==========================================
-### 2. READ WITH FILTER (GET)
-### Ekspektasi: Status 200 OK, hanya memunculkan jadwal ke Pulau Bunyu
-### ==========================================
-GET {{baseUrl}}?tujuan=Pulau%20Bunyu
-Accept: application/json
-
-
-### ==========================================
-### 3. READ BY ID (GET)
-### Ekspektasi: Status 200 OK, menampilkan satu detail armada
-### ==========================================
-GET {{baseUrl}}?id=1
-Accept: application/json
-
-
-### ==========================================
-### 4. CREATE (POST) - Tambah Jadwal Baru
-### Ekspektasi: Status 201 Created, data berhasil masuk database
-### ==========================================
-POST {{baseUrl}}
+### 2. LOGIN SEBAGAI VIEWER (Pengguna Umum)
+POST {{baseUrl}}/login.php
 Content-Type: application/json
 Accept: application/json
 
 {
-    "armada_id": 1,
-    "pelabuhan_id": 2,
-    "harga": 150000,
-    "berangkat": "08:00:00",
-    "tiba": "09:30:00",
-    "lokasi": "Dermaga 1"
+    "email": "user@speedboat.com",
+    "password": "User123!"
 }
 
+### 3. CEK PROFIL VIEWER (Sesudah Login)
+### Ekspektasi: 200 OK (Merespons data profil viewer)
+GET {{baseUrl}}/me.php
+Accept: application/json
 
-### ==========================================
-### 5. UPDATE (PUT) - Ubah Harga Tiket
-### Ekspektasi: Status 200 OK, harga berhasil diperbarui
-### ==========================================
-PUT {{baseUrl}}?id=1
+### 4. UJI AKSES DELETE SEBAGAI VIEWER
+### Ekspektasi: 403 Forbidden (Viewer mencoba akses hak Admin)
+DELETE {{baseUrl}}/jadwal.php?id=1
+Accept: application/json
+
+### 5. LOGOUT VIEWER
+POST {{baseUrl}}/logout.php
+Accept: application/json
+
+### 6. LOGIN SEBAGAI ADMIN
+POST {{baseUrl}}/login.php
 Content-Type: application/json
 Accept: application/json
 
 {
-    "harga": 175000
+    "email": "admin@speedboat.com",
+    "password": "Admin123!"
 }
 
-
-### ==========================================
-### 6. ERROR 404 (DELETE INVALID ID)
-### Ekspektasi: Status 404 Not Found, menguji penolakan data fiktif
-### ==========================================
-DELETE {{baseUrl}}?id=9999
+### 7. UJI AKSES DELETE SEBAGAI ADMIN
+### Ekspektasi: Tergantung id jadwalnya ada atau tidak, minimal lolos blokade 403 (Menjadi 204 atau 404 existence check dari modul 11)
+DELETE {{baseUrl}}/jadwal.php?id=1
 Accept: application/json
-
-
-### ==========================================
-### 7. ERROR 422 (POST INVALID PAYLOAD)
-### Ekspektasi: Status 422 Unprocessable Entity, menguji penolakan input kosong
-### ==========================================
-POST {{baseUrl}}
-Content-Type: application/json
-Accept: application/json
-
-{
-    "harga": 150000
-}
