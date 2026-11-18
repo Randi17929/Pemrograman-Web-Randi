@@ -170,8 +170,9 @@ function renderItems(items) {
         title.textContent = `${item.berangkat} WITA - ${item.armada}`; // Diubah menjadi item.armada hasil JOIN
 
         const detail = document.createElement('p');
-        detail.innerHTML = `Tujuan: <strong>${item.tujuan}</strong> | Lokasi: ${item.lokasi} | 🎟️ Rp ${Number(item.harga).toLocaleString('id-ID')}`;
-        
+        const strongTujuan = document.createElement('strong');
+        strongTujuan.textContent = item.tujuan; 
+        detail.append("Tujuan: ", strongTujuan, " | Lokasi: ", item.lokasi, ` | 🎟️ Rp ${Number(item.harga).toLocaleString('id-ID')}`);
         infoDiv.append(title, detail);
 
         const actionDiv = document.createElement('div');

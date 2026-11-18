@@ -1,12 +1,9 @@
-@baseUrl = http://localhost/pemweb-obe/api
+### ========================================================
+### PENGUJIAN LATIHAN E.2: UJI HAK AKSES MANUAL OLEH VIEWER
+### ========================================================
 
-### 1. UJI AKSES ANONYMOUS (Belum Login)
-### Ekspektasi: 401 Unauthorized (Ditolak saat cek profil)
-GET {{baseUrl}}/me.php
-Accept: application/json
-
-### 2. LOGIN SEBAGAI VIEWER (Pengguna Umum)
-POST {{baseUrl}}/login.php
+### LANGKAH 1: Login sebagai Viewer (Mendapatkan Sesi/Cookie)
+POST http://localhost/pemweb-obe/api/login.php
 Content-Type: application/json
 Accept: application/json
 
@@ -15,31 +12,7 @@ Accept: application/json
     "password": "User123!"
 }
 
-### 3. CEK PROFIL VIEWER (Sesudah Login)
-### Ekspektasi: 200 OK (Merespons data profil viewer)
-GET {{baseUrl}}/me.php
-Accept: application/json
-
-### 4. UJI AKSES DELETE SEBAGAI VIEWER
-### Ekspektasi: 403 Forbidden (Viewer mencoba akses hak Admin)
-DELETE {{baseUrl}}/jadwal.php?id=1
-Accept: application/json
-
-### 5. LOGOUT VIEWER
-POST {{baseUrl}}/logout.php
-Accept: application/json
-
-### 6. LOGIN SEBAGAI ADMIN
-POST {{baseUrl}}/login.php
-Content-Type: application/json
-Accept: application/json
-
-{
-    "email": "admin@speedboat.com",
-    "password": "Admin123!"
-}
-
-### 7. UJI AKSES DELETE SEBAGAI ADMIN
-### Ekspektasi: Tergantung id jadwalnya ada atau tidak, minimal lolos blokade 403 (Menjadi 204 atau 404 existence check dari modul 11)
-DELETE {{baseUrl}}/jadwal.php?id=1
+### LANGKAH 2: Uji Request DELETE Secara Manual
+### Ekspektasi Balasan Server: 403 Forbidden (Akses Ditolak)
+DELETE http://localhost/pemweb-obe/api/jadwal.php?id=1
 Accept: application/json

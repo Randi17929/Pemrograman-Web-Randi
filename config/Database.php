@@ -2,20 +2,20 @@
 class Database {
     private $conn;
 
-    public function getConnection() {
-        $this->conn = null;
-        
-        // Membaca file .env yang berada satu level di atas folder config
-        $env = parse_ini_file(__DIR__ . '/../.env');
-
-        $host = $env['DB_HOST'] ?? 'localhost';
-        $db_name = $env['DB_NAME'] ?? 'db_speedboat';
-        $username = $env['DB_USER'] ?? 'root';
-        $password = $env['DB_PASS'] ?? '';
+    public function __construct() {
+    // Membaca kredensial secara aman dari file .env
+    $envFile = __DIR__ . '/../.env';
+    if (file_exists($envFile)) {
+        $env = parse_ini_file($envFile);
+        $this->host = $env['DB_HOST'] ?? 'localhost';
+        $this->username = $env['DB_USER'] ?? 'root';
+        $this->password = $env['DB_PASS'] ?? '';
+        $this->db_name = $env['DB_NAME'] ?? 'db_speedboat';
+    }
 
         try {
-            $dsn = "mysql:host={$host};dbname={$db_name};charset=utf8mb4";
-            $this->conn = new PDO($dsn, $username, $password);
+            $dsn = "mysql:host={$this->host};dbname={$this->db_name};charset=utf8mb4";
+            $this->conn = new PDO($dsn, $this->username, $this->password);
             
             // Atur PDO error mode ke exception & default fetch ke Associative Array
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

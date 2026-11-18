@@ -110,12 +110,13 @@ try {
     elseif ($method === 'POST') {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
+        $token = $input['csrf_token'] ?? '';
+        if (!hash_equals($_SESSION['csrf'] ?? '', $token)) {
+            jsonError(403, 'Permintaan tidak valid (CSRF Token Mismatch).');
+        }
 
         // Hanya Admin dan Petugas yang bisa menambah/merubah jadwal
         requireRole(['admin', 'petugas']);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            jsonError(400, 'Format JSON tidak valid.');
         }
 
         // Validasi input
