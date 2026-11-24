@@ -1,18 +1,20 @@
-### ========================================================
-### PENGUJIAN LATIHAN E.2: UJI HAK AKSES MANUAL OLEH VIEWER
-### ========================================================
-
-### LANGKAH 1: Login sebagai Viewer (Mendapatkan Sesi/Cookie)
-POST http://localhost/pemweb-obe/api/login.php
+### RETEST 1: Uji Penolakan CSRF Token pada Endpoint POST
+### Ekspektasi: 403 Forbidden (Permintaan tidak valid / CSRF Token Mismatch)
+POST http://localhost/pemweb-obe/api/jadwal.php
 Content-Type: application/json
 Accept: application/json
 
 {
-    "email": "user@speedboat.com",
-    "password": "User123!"
+    "armada_id": 1,
+    "pelabuhan_id": 2,
+    "harga": 150000,
+    "berangkat": "08:00:00",
+    "tiba": "09:30:00",
+    "lokasi": "Dermaga 1",
+    "csrf_token": "token_palsu_atau_kosong"
 }
 
-### LANGKAH 2: Uji Request DELETE Secara Manual
-### Ekspektasi Balasan Server: 403 Forbidden (Akses Ditolak)
-DELETE http://localhost/pemweb-obe/api/jadwal.php?id=1
+### RETEST 2: Uji SQL Injection pada Parameter Filter GET
+### Ekspektasi: 200 OK dengan array data kosong [] (Query tidak error / tidak bocor)
+GET http://localhost/pemweb-obe/api/jadwal.php?tujuan=' OR '1'='1
 Accept: application/json

@@ -3,7 +3,6 @@
 
 header('Content-Type: application/json');
 require_once '../config/Database.php';
-
 require_once '../config/auth.php'; // Sertakan helper proteksi
 
 // Fungsi Helper untuk format respons Error yang konsisten
@@ -47,9 +46,13 @@ $method = $_SERVER['REQUEST_METHOD'];
 $id_param = $_GET['id'] ?? null;
 $id = filter_var($id_param, FILTER_VALIDATE_INT);
 
-// Blok try-catch utama untuk boundary API (Langkah Praktikum 5)
+if ($id_param !== null && !$id) {
+    jsonError(400, 'Format parameter ID tidak valid.');
+}
+
+// Blok try-catch utama untuk boundary API
 try {
-    
+
     /* =========================================
        READ (GET Collection & GET by ID)
        ========================================= */
@@ -70,7 +73,6 @@ try {
             $stmt->execute();
             $jadwal = $stmt->fetch(PDO::FETCH_ASSOC);
             
-            // Latihan 2: Buat response 404 jika id tidak ada
             if (!$jadwal) {
                 jsonError(404, 'Data jadwal dengan ID tersebut tidak ditemukan.');
             }
@@ -92,7 +94,7 @@ try {
             if ($tujuan) {
                 $query .= " WHERE p.nama = :tujuan";
                 $stmt = $db->prepare($query);
-                $stmt->bindParam(':tujuan', $tujuan);
+                $stmt->bindParam(':tujuan', $tujuan, PDO::PARAM_STR);
             } else {
                 $stmt = $db->prepare($query);
             }
@@ -106,34 +108,50 @@ try {
     /* =========================================
        CREATE (POST)
        ========================================= */
-       
     elseif ($method === 'POST') {
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($input)) {
+            jsonError(400, 'Format JSON tidak valid.');
+        }
+
+        // Verifikasi CSRF Token sebelum memproses perubahan state
         $token = $input['csrf_token'] ?? '';
         if (!hash_equals($_SESSION['csrf'] ?? '', $token)) {
             jsonError(403, 'Permintaan tidak valid (CSRF Token Mismatch).');
         }
 
-        // Hanya Admin dan Petugas yang bisa menambah/merubah jadwal
+        // Hanya Admin dan Petugas yang bisa menambah jadwal
         requireRole(['admin', 'petugas']);
+
+        // Validasi input wajib dan tipe numerik
+        $armada_id = filter_var($input['armada_id'] ?? null, FILTER_VALIDATE_INT);
+        $pelabuhan_id = filter_var($input['pelabuhan_id'] ?? null, FILTER_VALIDATE_INT);
+        $harga = filter_var($input['harga'] ?? null, FILTER_VALIDATE_FLOAT);
+
+        if (!$armada_id || !$pelabuhan_id) {
+            jsonError(422, 'ID Armada dan ID Pelabuhan wajib diisi dengan angka yang valid.');
         }
 
-        // Validasi input
-        if (empty($input['armada_id']) || empty($input['pelabuhan_id'])) {
-            jsonError(422, 'ID Armada dan ID Pelabuhan wajib diisi.');
+        if ($harga === false || $harga < 0) {
+            jsonError(422, 'Harga tiket wajib diisi dengan angka positif.');
+        }
+
+        if (empty($input['berangkat']) || empty($input['tiba']) || empty($input['lokasi'])) {
+            jsonError(422, 'Waktu berangkat, waktu tiba, dan lokasi sandar wajib diisi.');
         }
 
         $query = "INSERT INTO jadwal (armada_id, pelabuhan_tujuan_id, harga, waktu_berangkat, waktu_tiba, lokasi_sandar) 
                   VALUES (:armada_id, :pelabuhan_id, :harga, :berangkat, :tiba, :lokasi)";
         
         $stmt = $db->prepare($query);
-        $stmt->bindParam(':armada_id', $input['armada_id']);
-        $stmt->bindParam(':pelabuhan_id', $input['pelabuhan_id']);
-        $stmt->bindParam(':harga', $input['harga']);
-        $stmt->bindParam(':berangkat', $input['berangkat']);
-        $stmt->bindParam(':tiba', $input['tiba']);
-        $stmt->bindParam(':lokasi', $input['lokasi']);
+        $stmt->bindParam(':armada_id', $armada_id, PDO::PARAM_INT);
+        $stmt->bindParam(':pelabuhan_id', $pelabuhan_id, PDO::PARAM_INT);
+        $stmt->bindParam(':harga', $harga);
+        $stmt->bindParam(':berangkat', $input['berangkat'], PDO::PARAM_STR);
+        $stmt->bindParam(':tiba', $input['tiba'], PDO::PARAM_STR);
+        $stmt->bindParam(':lokasi', $input['lokasi'], PDO::PARAM_STR);
         
         $stmt->execute();
         $new_id = $db->lastInsertId();
@@ -145,31 +163,38 @@ try {
        UPDATE (PUT / PATCH)
        ========================================= */
     elseif ($method === 'PUT' || $method === 'PATCH') {
+        // Hanya Admin dan Petugas yang bisa memperbarui jadwal
+        requireRole(['admin', 'petugas']);
+
         if (!$id) {
             jsonError(400, 'ID jadwal wajib disertakan untuk melakukan pembaruan (contoh: ?id=1).');
-        }
-
-        // Cek eksistensi data sebelum update
-        $cekQuery = "SELECT id FROM jadwal WHERE id = :id";
-        $cekStmt = $db->prepare($cekQuery);
-        $cekStmt->bindParam(':id', $id);
-        $cekStmt->execute();
-        if ($cekStmt->rowCount() === 0) {
-            jsonError(404, 'Data jadwal tidak ditemukan untuk diperbarui.');
         }
 
         $inputJSON = file_get_contents('php://input');
         $input = json_decode($inputJSON, true);
 
-        // Contoh update sederhana (hanya harga) untuk praktikum
-        if (!isset($input['harga'])) {
-            jsonError(422, 'Parameter harga wajib diisi untuk update.');
+        if (json_last_error() !== JSON_ERROR_NONE || !is_array($input)) {
+            jsonError(400, 'Format JSON tidak valid.');
+        }
+
+        $harga = filter_var($input['harga'] ?? null, FILTER_VALIDATE_FLOAT);
+        if ($harga === false || $harga < 0) {
+            jsonError(422, 'Parameter harga wajib diisi dengan angka valid untuk update.');
+        }
+
+        // Cek eksistensi data sebelum update
+        $cekQuery = "SELECT id FROM jadwal WHERE id = :id";
+        $cekStmt = $db->prepare($cekQuery);
+        $cekStmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $cekStmt->execute();
+        if ($cekStmt->rowCount() === 0) {
+            jsonError(404, 'Data jadwal tidak ditemukan untuk diperbarui.');
         }
 
         $query = "UPDATE jadwal SET harga = :harga WHERE id = :id";
         $stmt = $db->prepare($query);
-        $stmt->bindParam(':harga', $input['harga']);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':harga', $harga);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         jsonSuccess(200, 'Data harga jadwal berhasil diperbarui.');
@@ -179,16 +204,17 @@ try {
        DELETE
        ========================================= */
     elseif ($method === 'DELETE') {
+        // Hanya Admin yang bisa menghapus jadwal
+        requireRole(['admin']);
+
         if (!$id) {
             jsonError(400, 'ID jadwal wajib disertakan untuk menghapus data (contoh: ?id=1).');
         }
-        // Hanya Admin yang bisa menghapus jadwal
-        requireRole(['admin']);
         
         // Cek eksistensi data sebelum delete
         $cekQuery = "SELECT id FROM jadwal WHERE id = :id";
         $cekStmt = $db->prepare($cekQuery);
-        $cekStmt->bindParam(':id', $id);
+        $cekStmt->bindParam(':id', $id, PDO::PARAM_INT);
         $cekStmt->execute();
         if ($cekStmt->rowCount() === 0) {
             jsonError(404, 'Data jadwal tidak ditemukan. Tidak ada data yang dihapus.');
@@ -196,7 +222,7 @@ try {
 
         $query = "DELETE FROM jadwal WHERE id = :id";
         $stmt = $db->prepare($query);
-        $stmt->bindParam(':id', $id);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
 
         // DELETE sukses standar REST mengembalikan 204 No Content
@@ -212,7 +238,6 @@ try {
     }
 
 } catch (PDOException $e) {
-    // Latihan 3: Simulasikan error DB tanpa membocorkan stack trace
     error_log("Database Error pada /api/jadwal: " . $e->getMessage());
     jsonError(500, 'Terjadi kesalahan sistem saat memproses data ke database. Silakan coba beberapa saat lagi.');
 } catch (Exception $e) {
