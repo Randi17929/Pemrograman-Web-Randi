@@ -1,0 +1,12 @@
+# Matikan tampilan error detail ke browser (Mode Production)
+php_flag display_errors Off
+php_flag display_startup_errors Off
+php_flag log_errors On
+
+# Nonaktifkan directory listing agar struktur folder tidak terlihat publik
+Options -Indexes
+
+# Blokir akses HTTP langsung ke file konfigurasi sensitif dan backup database
+<FilesMatch "^(\.env|\.env\.example|\.gitignore|composer\.json|.*\.sql|.*\.md)$">
+    Require all denied
+</FilesMatch>

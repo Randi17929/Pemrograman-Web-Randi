@@ -9,14 +9,13 @@
 </head>
 <body>
 
-    <!-- Sidebar Menu Melayang iiii takonyee -->
-    <nav id="sidebar" class="sidebar">
-        <!-- Tombol Tutup -->
-        <button id="close-sidebar" class="close-btn" aria-label="Tutup Menu">✖</button>
+    <!-- Sidebar Menu Melayang -->
+    <nav id="sidebar" class="sidebar" aria-label="Navigasi Utama">
+        <button id="close-sidebar" class="close-btn" type="button" aria-label="Tutup Menu">✖</button>
         
         <div class="sidebar-header">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Logo E-Ticketing" width="50">
-            <h2>E-Ticketing</h2>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Lambang Kota Tarakan - Logo E-Ticketing" width="50" height="50" loading="lazy" decoding="async">
+            <p class="brand-title">E-Ticketing</p>
         </div>
         
         <ul class="sidebar-links">
@@ -27,48 +26,47 @@
             <li><a href="kontak.html">📞 Bantuan CS / WhatsApp</a></li>
         </ul>
 
-        <div style="margin-top: 2rem; border-top: 1px solid #ccc; padding-top: 1rem;">
-            <button id="theme-button" class="btn-outline" style="width: 100%;">🌓 Mode Tampilan</button>
+        <div class="sidebar-footer">
+            <button id="theme-button" class="btn-outline" type="button" style="width: 100%;">🌓 Mode Tampilan</button>
         </div>
     </nav>
     
-    <div id="sidebar-overlay" class="overlay"></div>
+    <div id="sidebar-overlay" class="overlay" aria-hidden="true"></div>
 
     <header class="navbar">
-        <button id="hamburger-menu" class="hamburger-btn" aria-label="Buka Menu Utama">
+        <button id="hamburger-menu" class="hamburger-btn" type="button" aria-label="Buka Menu Utama" aria-controls="sidebar" aria-expanded="false">
             ☰
         </button>
         
         <div class="navbar-brand">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Logo E-Ticketing" width="50">
-            <h2>E-Ticketing Tengkayu</h2>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/1/1e/Lambang_Kota_Tarakan.gif?utm_source=id.wikipedia.org&utm_campaign=index&utm_content=thumbnail_unscaled" alt="Lambang Kota Tarakan - Logo E-Ticketing Tengkayu" width="50" height="50" decoding="async">
+            <span class="navbar-title">E-Ticketing Tengkayu</span>
         </div>
     </header>
 
-    <section class="hero-mungkeen">
+    <section class="hero-mungkeen" aria-label="Banner Utama">
         <div class="hero-text">
             <h1 class="hero-title">Jelajahi Tarakan</h1>
             <p>Pesan tiket lebih mudah dan cepat.</p>
         </div>
-        <div class="hero-image">
-             🚢
+        <div class="hero-image" aria-hidden="true">
+            🚢
         </div>
     </section>
 
-   <main id="main" class="container">
+    <main id="main" class="container">
         
-        <!-- 1. FORM PENCARIAN (Dikembalikan ke versi awal) -->
-        <section class="card">
-            <h3>Pencarian Tiket Speedboat</h3>
-            <!-- Form ini hanya untuk UI pencarian, tidak divalidasi secara kompleks -->
+        <!-- 1. FORM PENCARIAN -->
+        <section class="card" aria-labelledby="heading-pencarian">
+            <h2 id="heading-pencarian" class="section-heading">Pencarian Tiket Speedboat</h2>
             <form id="form-cari-tiket">
                 <div class="form-group">
-                    <label for="cari_dari"><b>Dari (Asal)</b></label>
+                    <label for="cari_dari">Dari (Asal)</label>
                     <input type="text" id="cari_dari" value="Pelabuhan Tengkayu, Tarakan" readonly class="input-readonly">
                 </div>
 
                 <div class="form-group">
-                    <label for="cari_ke"><b>Ke (Tujuan)</b></label>
+                    <label for="cari_ke">Ke (Tujuan)</label>
                     <select id="cari_ke" required>
                         <option value="">-- Pilih Pelabuhan Tujuan --</option>
                         <option value="Pulau Bunyu">Pulau Bunyu (Rp 120.000)</option>
@@ -83,11 +81,11 @@
 
                 <div class="form-group row-group">
                     <div class="half-width">
-                        <label for="cari_tanggal"><b>Tanggal Berangkat</b></label>
+                        <label for="cari_tanggal">Tanggal Berangkat</label>
                         <input type="date" id="cari_tanggal" required>
                     </div>
                     <div class="half-width">
-                        <label for="cari_penumpang"><b>Jumlah Penumpang</b></label>
+                        <label for="cari_penumpang">Jumlah Penumpang</label>
                         <select id="cari_penumpang" required>
                             <option value="1">1 Dewasa</option>
                             <option value="2">2 Dewasa</option>
@@ -102,12 +100,12 @@
         </section>
 
         <!-- 2. DAFTAR JADWAL KAPAL -->
-        <section class="card" id="bagian-jadwal">
-            <h3>🚤 Jadwal & Ketersediaan Kapal (Live)</h3>
+        <section class="card" id="bagian-jadwal" aria-labelledby="heading-jadwal">
+            <h2 id="heading-jadwal" class="section-heading">🚤 Jadwal & Ketersediaan Kapal (Live)</h2>
             
-            <div style="display: flex; justify-content: flex-end; margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: flex-end; align-items: center; margin-bottom: 1rem;">
                 <label for="limit" style="margin-right: 0.5rem; font-weight: bold;">Tampilkan:</label>
-                <select id="limit" style="width: auto; padding: 0.2rem; border-radius: 5px;">
+                <select id="limit" style="width: auto; padding: 0.35rem 0.5rem; border-radius: 5px;">
                     <option value="5">5 item</option>
                     <option value="10">10 item</option>
                     <option value="20">20 item</option>
@@ -115,65 +113,52 @@
             </div>
 
             <div class="form-group">
-                <label for="search"><b>Cari Nama Kapal atau Tujuan:</b></label>
+                <label for="search">Cari Nama Kapal atau Tujuan:</label>
                 <input id="search" type="search" placeholder="Ketik nama kapal atau tujuan...">
             </div>
 
-            <div class="toolbar" aria-label="Filter inventaris" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                <button data-filter="Semua" class="btn-primary" style="width: auto; padding: 0.5rem 1rem;">Semua Dermaga</button>
-                <button data-filter="Dermaga 1" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 1</button>
-                <button data-filter="Dermaga 2" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 2</button>
-                <button data-filter="Dermaga 3" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 3</button>
-                <button data-filter="Dermaga 4" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 4</button>
+            <div class="toolbar" role="group" aria-label="Filter dermaga keberangkatan" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
+                <button type="button" data-filter="Semua" class="btn-primary" style="width: auto; padding: 0.5rem 1rem;">Semua Dermaga</button>
+                <button type="button" data-filter="Dermaga 1" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 1</button>
+                <button type="button" data-filter="Dermaga 2" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 2</button>
+                <button type="button" data-filter="Dermaga 3" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 3</button>
+                <button type="button" data-filter="Dermaga 4" class="btn-outline" style="width: auto; padding: 0.5rem 1rem;">Dermaga 4</button>
             </div>
         
-<!-- Tampilan Loading dan Error -->
+            <!-- Tampilan Loading dan Error -->
             <div id="api-status-container" style="text-align: center; margin-bottom: 1rem;">
                 <p id="api-message" style="font-weight: bold; color: var(--brand);"></p>
-                <button id="btn-retry" class="btn-primary" style="display: none; width: auto; margin: 0 auto; padding: 0.5rem 1rem;">Coba Muat Ulang</button>
+                <button type="button" id="btn-retry" class="btn-primary" style="display: none; width: auto; margin: 0 auto; padding: 0.5rem 1rem;">Coba Muat Ulang</button>
             </div>
             
-            <div id="daftar-jadwal" aria-live="polite" style="display: grid; gap: 1rem;">
-            </div>
-
-
-        
-            <div class="toolbar" aria-label="Filter inventaris" style="display: flex; gap: 0.5rem; margin-bottom: 1rem; flex-wrap: wrap;">
-                <!-- ... tombol filter ... -->
-            </div>
-
-            <div id="daftar-jadwal" aria-live="polite" style="display: grid; gap: 1rem;">
-            </div>
+            <div id="daftar-jadwal" aria-live="polite" style="display: grid; gap: 1rem;"></div>
         </section>
 
-        <!-- FORM PEMESANAN & DATA PENUMPANG -->
-        <section class="card" id="bagian-pemesanan">
-            <h3>Lengkapi Data Pemesanan</h3>
+        <!-- 3. FORM PEMESANAN & DATA PENUMPANG -->
+        <section class="card" id="bagian-pemesanan" aria-labelledby="heading-pemesanan">
+            <h2 id="heading-pemesanan" class="section-heading">Lengkapi Data Pemesanan</h2>
             <p style="margin-bottom: 1.5rem; color: var(--text-light); font-size: 0.9rem;">
-                * Silakan lengkapi formulir di bawah ini setelah Anda menentukan jadwal kapal pada bagian pencarian di atas.
+                Silakan lengkapi formulir di bawah ini setelah Anda menentukan jadwal kapal pada bagian pencarian di atas.
             </p>
             
             <!-- Error summary -->
-            <div id="error-summary" aria-live="polite" style="display: none; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #ef4444; background-color: #fef2f2; border-radius: 0.5rem; color: #ef4444; font-weight: bold;"></div>
+            <div id="error-summary" role="alert" aria-live="polite" style="display: none; margin-bottom: 1rem; padding: 0.75rem; border: 1px solid #b91c1c; background-color: #fef2f2; border-radius: 0.5rem; color: #b91c1c; font-weight: bold;"></div>
 
             <form id="form-pesan-tiket" novalidate>
-                <!-- Nama -->
                 <div class="form-group">
-                    <label for="nama"><b>Nama Lengkap Penumpang Utama</b></label>
+                    <label for="nama">Nama Lengkap Penumpang Utama</label>
                     <input type="text" id="nama" name="nama" placeholder="Sesuai KTP/Identitas" required aria-describedby="error-nama">
                     <small id="error-nama" class="error-text" aria-live="polite"></small>
                 </div>
 
-                <!-- Kontak -->
                 <div class="form-group">
-                    <label for="kontak"><b>Email / No. WhatsApp</b></label>
+                    <label for="kontak">Email / No. WhatsApp</label>
                     <input type="text" id="kontak" name="kontak" placeholder="Untuk pengiriman kode booking" required aria-describedby="error-kontak">
                     <small id="error-kontak" class="error-text" aria-live="polite"></small>
                 </div>
 
-                <!-- Kategori/pilihan -->
                 <div class="form-group">
-                    <label for="ke"><b>Tujuan Pelabuhan yang Dipilih</b></label>
+                    <label for="ke">Tujuan Pelabuhan yang Dipilih</label>
                     <select name="ke" id="ke" required aria-describedby="error-ke">
                         <option value="">-- Konfirmasi Pelabuhan Tujuan --</option>
                         <option value="Pulau Bunyu">Pulau Bunyu</option>
@@ -188,31 +173,27 @@
                 </div>
 
                 <div class="form-group row-group">
-                    <!-- Tanggal -->
                     <div class="half-width">
-                        <label for="tanggal"><b>Tanggal Berangkat</b></label>
+                        <label for="tanggal">Tanggal Berangkat</label>
                         <input type="date" name="tanggal" id="tanggal" required aria-describedby="error-tanggal">
                         <small id="error-tanggal" class="error-text" aria-live="polite"></small>
                     </div>
-                     <!-- Jumlah Penumpang -->
                     <div class="half-width">
-                        <label for="penumpang"><b>Jumlah Penumpang</b></label>
+                        <label for="penumpang">Jumlah Penumpang</label>
                         <input type="number" name="penumpang" id="penumpang" min="1" max="10" value="1" required aria-describedby="error-penumpang">
                         <small id="error-penumpang" class="error-text" aria-live="polite"></small>
                     </div>
                 </div>
 
-                <!-- Deskripsi/catatan -->
                 <div class="form-group">
-                    <label for="catatan"><b>Catatan Perjalanan (Opsional)</b></label>
-                    <textarea id="catatan" name="catatan" rows="2" placeholder="Contoh: Bawa barang pecah belah..." aria-describedby="error-catatan" style="width: 100%; padding: 0.75rem; border: 1px solid #ccc; border-radius: 0.5rem; font-family: inherit; background-color: var(--surface); color: var(--text);"></textarea>
+                    <label for="catatan">Catatan Perjalanan (Opsional)</label>
+                    <textarea id="catatan" name="catatan" rows="2" placeholder="Contoh: Bawa barang pecah belah..." aria-describedby="error-catatan" style="width: 100%; padding: 0.75rem; border: 1px solid #9ca3af; border-radius: 0.5rem; font-family: inherit; background-color: var(--surface); color: var(--text);"></textarea>
                     <small id="error-catatan" class="error-text" aria-live="polite"></small>
                 </div>
 
-                <!-- Checkbox persetujuan -->
                 <div class="form-group" style="display: flex; align-items: flex-start; gap: 0.5rem;">
                     <input type="checkbox" id="setuju" name="setuju" required aria-describedby="error-setuju" style="width: auto; margin-top: 0.2rem;">
-                    <label for="setuju" style="font-size: 0.85rem;">Saya menyetujui syarat & ketentuan pemesanan tiket, serta bersedia mengunggah bukti transfer nantinya.</label>
+                    <label for="setuju" style="font-size: 0.85rem; font-weight: normal;">Saya menyetujui syarat & ketentuan pemesanan tiket, serta bersedia mengunggah bukti transfer nantinya.</label>
                 </div>
                 <small id="error-setuju" class="error-text" aria-live="polite" style="display: block; margin-bottom: 1rem;"></small>
 
@@ -220,8 +201,8 @@
             </form>
         </section>
 
-        <aside class="card highlight-card">
-            <h3>⚡ Layanan Cepat</h3>
+        <aside class="card highlight-card" aria-labelledby="heading-layanan">
+            <h2 id="heading-layanan" class="section-heading">⚡ Layanan Cepat</h2>
             <ul class="quick-links">
                 <li><a href="cek_pesanan.html" class="btn-secondary">🎫 Cek Pesanan / Upload Bukti</a></li>
                 <li><a href="login_agen.html" class="btn-outline">🔐 Portal Admin / Agen Mitra</a></li>
@@ -230,27 +211,25 @@
 
     </main>
 
-    </main>
-
-    <section class="container" style="padding-top: 0;">
-        <h3 style="text-align: center; margin-bottom: 1rem; width: 100%;">Kenapa Memilih Kami?</h3>
+    <section class="container" style="padding-top: 0;" aria-labelledby="heading-keunggulan">
+        <h2 id="heading-keunggulan" class="section-heading" style="text-align: center; border-bottom: none; width: 100%;">Kenapa Memilih Kami?</h2>
         <div class="features-grid">
-            <div class="card">✅ <b>Pemesanan Mudah</b><br>Tanpa antre di pelabuhan.</div>
-            <div class="card">💸 <b>Harga Resmi</b><br>Sesuai tarif reguler dishub.</div>
-            <div class="card">🛡️ <b>Aman & Nyaman</b><br>Terintegrasi asuransi Jasa Raharja.</div>
+            <div class="card">✅ <strong>Pemesanan Mudah</strong><br>Tanpa antre di pelabuhan.</div>
+            <div class="card">💸 <strong>Harga Resmi</strong><br>Sesuai tarif reguler dishub.</div>
+            <div class="card">🛡️ <strong>Aman & Nyaman</strong><br>Terintegrasi asuransi Jasa Raharja.</div>
         </div>
     </section>
 
-    <div id="detail-modal" class="modal-overlay">
+    <div id="detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div class="modal-content card">
             <div class="modal-header">
-                <h3 style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">🎫 Rincian Tiket</h3>
-                <button id="close-modal" class="close-modal-btn" aria-label="Tutup">✖</button>
+                <h2 id="modal-title" class="section-heading" style="margin-bottom: 0; border-bottom: none; padding-bottom: 0;">🎫 Rincian Tiket</h2>
+                <button type="button" id="close-modal" class="close-modal-btn" aria-label="Tutup Rincian Tiket">✖</button>
             </div>
             <div class="modal-body" id="modal-body-content">
             </div>
             <div class="modal-footer" style="margin-top: 1rem;">
-                <button id="modal-ok-btn" class="btn-primary">OK, Mengerti</button>
+                <button type="button" id="modal-ok-btn" class="btn-primary">OK, Mengerti</button>
             </div>
         </div>
     </div>

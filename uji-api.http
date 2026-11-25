@@ -1,20 +1,78 @@
-### RETEST 1: Uji Penolakan CSRF Token pada Endpoint POST
-### Ekspektasi: 403 Forbidden (Permintaan tidak valid / CSRF Token Mismatch)
-POST http://localhost/pemweb-obe/api/jadwal.php
+### =========================================================================
+### MODUL 14 — LATIHAN 1: 2 NEGATIVE TEST TAMBAHAN
+### =========================================================================
+
+### TC-13: Uji Metode HTTP Tidak Diizinkan (Ekspektasi: 405 Method Not Allowed)
+OPTIONS http://localhost/pemweb-obe/api/jadwal.php
+Accept: application/json
+
+### TC-14A: Uji Parameter ID Non-Numerik (Ekspektasi: 400 Bad Request)
+GET http://localhost/pemweb-obe/api/jadwal.php?id=abc
+Accept: application/json
+
+### TC-14B: Uji Update Harga Bernilai Negatif (Ekspektasi: 422 Unprocessable Entity)
+### Catatan: Jalankan request Login Admin terlebih dahulu agar sesi aktif
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
 Content-Type: application/json
 Accept: application/json
 
 {
-    "armada_id": 1,
-    "pelabuhan_id": 2,
-    "harga": 150000,
-    "berangkat": "08:00:00",
-    "tiba": "09:30:00",
-    "lokasi": "Dermaga 1",
-    "csrf_token": "token_palsu_atau_kosong"
+    "harga": -50000
 }
 
-### RETEST 2: Uji SQL Injection pada Parameter Filter GET
-### Ekspektasi: 200 OK dengan array data kosong [] (Query tidak error / tidak bocor)
-GET http://localhost/pemweb-obe/api/jadwal.php?tujuan=' OR '1'='1
+
+### LANGKAH 1: Login Admin untuk Mendapatkan Cookie Sesi (Ekspektasi: 200 OK)
+POST http://localhost/pemweb-obe/api/login.php
+Content-Type: application/json
 Accept: application/json
+
+{
+    "email": "admin@tengkayu.test",
+    "password": "password_admin_anda"
+}
+
+### LANGKAH 2 (TC-14B): Uji Update Harga Bernilai Negatif (Ekspektasi: 422 Unprocessable Entity)
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "harga": -50000
+}
+
+### LANGKAH 1: Login Admin untuk Mendapatkan Cookie Sesi (Ekspektasi: 200 OK)
+POST http://localhost/pemweb-obe/api/login.php
+Content-Type: application/json
+Accept: application/json
+
+{
+    "email": "admin@speedboat.com",
+    "password": "Admin123!"
+}
+
+### LANGKAH 2 (TC-14B): Uji Update Harga Bernilai Negatif (Ekspektasi: 422 Unprocessable Entity)
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "harga": -50000
+}
+
+
+### TC-13: Uji Metode HTTP Tidak Diizinkan (Ekspektasi: 405 Method Not Allowed)
+OPTIONS http://localhost/pemweb-obe/api/jadwal.php
+Accept: application/json
+
+### TC-14A: Uji Parameter ID Non-Numerik (Ekspektasi: 400 Bad Request)
+GET http://localhost/pemweb-obe/api/jadwal.php?id=abc
+Accept: application/json
+
+### TC-14B: Uji Update Harga Bernilai Negatif (Ekspektasi: 422 Unprocessable Entity)
+PUT http://localhost/pemweb-obe/api/jadwal.php?id=1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "harga": -50000
+}
